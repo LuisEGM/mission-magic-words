@@ -70,96 +70,94 @@ export const Level1Screen: React.FC = () => {
     setLevelComplete(false);
   };
 
-  if (showStory) {
-    return (
-      <ScreenContainer>
-        <GameHeader
-          levelName={LEVEL1_DATA.name}
-          currentStars={level1Stars}
-          showProgress={false}
-        />
-        <div className="mt-8">
-          <Card className="max-w-2xl mx-auto p-6 mb-6 bg-purple-50 border-2 border-purple-200">
-            <p className="text-gray-700 leading-relaxed">
-              {LEVEL1_DATA.intro}
-            </p>
-          </Card>
-          <StoryDisplay
-            story={LEVEL1_DATA.story}
-            onStartQuestions={handleStartQuestions}
-          />
-        </div>
-      </ScreenContainer>
-    );
-  }
-
-  if (levelComplete) {
-    const passed = canAdvanceLevel(1);
-
-    return (
-      <ScreenContainer>
-        <GameHeader
-          levelName={LEVEL1_DATA.name}
-          currentStars={level1Stars}
-        />
-        <div className="flex items-center justify-center min-h-[70vh]">
-          <Card className="p-8 max-w-lg text-center">
-            {passed ? (
-              <>
-                <div className="text-6xl mb-4">🎉</div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                  ¡Nivel Completado!
-                </h2>
-                <p className="text-xl text-gray-600 mb-6">
-                  Has obtenido <span className="font-bold text-yellow-600">{level1Stars} estrellas</span>
-                </p>
-                <p className="text-gray-600">
-                  Preparándose para desbloquear la primera palabra mágica...
-                </p>
-              </>
-            ) : (
-              <>
-                <AlertCircle size={64} className="text-orange-500 mx-auto mb-4" />
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                  Casi lo logras
-                </h2>
-                <p className="text-xl text-gray-600 mb-6">
-                  Obtuviste <span className="font-bold text-yellow-600">{level1Stars} estrellas</span>
-                </p>
-                <p className="text-gray-600 mb-6">
-                  Necesitas al menos {LEVEL1_DATA.minStars} estrellas para continuar.
-                </p>
-                <Button onClick={handleRetry} size="lg">
-                  Intentar de Nuevo
-                </Button>
-              </>
-            )}
-          </Card>
-        </div>
-      </ScreenContainer>
-    );
-  }
-
   return (
-    <ScreenContainer>
-      <GameHeader
-        levelName={LEVEL1_DATA.name}
-        currentStars={level1Stars}
-      />
-      <div className="mt-8">
-        <Question
-          question={currentQuestion}
-          onAnswer={handleAnswer}
-          questionNumber={currentQuestionIndex + 1}
-          totalQuestions={LEVEL1_DATA.questions.length}
-        />
+    <>
+      {showStory && (
+        <ScreenContainer>
+          <GameHeader
+            levelName={LEVEL1_DATA.name}
+            currentStars={level1Stars}
+            showProgress={false}
+          />
+          <div className="mt-8">
+            <Card className="max-w-2xl mx-auto p-6 mb-6 bg-purple-50 border-2 border-purple-200">
+              <p className="text-gray-700 leading-relaxed">
+                {LEVEL1_DATA.intro}
+              </p>
+            </Card>
+            <StoryDisplay
+              story={LEVEL1_DATA.story}
+              onStartQuestions={handleStartQuestions}
+            />
+          </div>
+        </ScreenContainer>
+      )}
 
-        <div className="text-center mt-6">
-          <Button onClick={handleNext} size="lg">
-            {isLastQuestion ? 'Finalizar Nivel' : 'Siguiente Pregunta'}
-          </Button>
-        </div>
-      </div>
+      {levelComplete && (
+        <ScreenContainer>
+          <GameHeader
+            levelName={LEVEL1_DATA.name}
+            currentStars={level1Stars}
+          />
+          <div className="flex items-center justify-center min-h-[70vh]">
+            <Card className="p-8 max-w-lg text-center">
+              {canAdvanceLevel(1) ? (
+                <>
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                    ¡Nivel Completado!
+                  </h2>
+                  <p className="text-xl text-gray-600 mb-6">
+                    Has obtenido <span className="font-bold text-yellow-600">{level1Stars} estrellas</span>
+                  </p>
+                  <p className="text-gray-600">
+                    Preparándose para desbloquear la primera palabra mágica...
+                  </p>
+                </>
+              ) : (
+                <>
+                  <AlertCircle size={64} className="text-orange-500 mx-auto mb-4" />
+                  <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                    Casi lo logras
+                  </h2>
+                  <p className="text-xl text-gray-600 mb-6">
+                    Obtuviste <span className="font-bold text-yellow-600">{level1Stars} estrellas</span>
+                  </p>
+                  <p className="text-gray-600 mb-6">
+                    Necesitas al menos {LEVEL1_DATA.minStars} estrellas para continuar.
+                  </p>
+                  <Button onClick={handleRetry} size="lg">
+                    Intentar de Nuevo
+                  </Button>
+                </>
+              )}
+            </Card>
+          </div>
+        </ScreenContainer>
+      )}
+
+      {!showStory && !levelComplete && (
+        <ScreenContainer>
+          <GameHeader
+            levelName={LEVEL1_DATA.name}
+            currentStars={level1Stars}
+          />
+          <div className="mt-8">
+            <Question
+              question={currentQuestion}
+              onAnswer={handleAnswer}
+              questionNumber={currentQuestionIndex + 1}
+              totalQuestions={LEVEL1_DATA.questions.length}
+            />
+
+            <div className="text-center mt-6">
+              <Button onClick={handleNext} size="lg">
+                {isLastQuestion ? 'Finalizar Nivel' : 'Siguiente Pregunta'}
+              </Button>
+            </div>
+          </div>
+        </ScreenContainer>
+      )}
 
       {showUnlock && (
         <UnlockAnimation
@@ -168,6 +166,6 @@ export const Level1Screen: React.FC = () => {
           onComplete={handleUnlockComplete}
         />
       )}
-    </ScreenContainer>
+    </>
   );
 };

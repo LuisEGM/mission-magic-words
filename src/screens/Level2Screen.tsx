@@ -68,85 +68,85 @@ export const Level2Screen: React.FC = () => {
     setCompletedChallenges(0);
   };
 
-  if (levelComplete) {
-    const passed = canAdvanceLevel(2);
-
-    return (
-      <ScreenContainer>
-        <GameHeader
-          levelName={LEVEL2_DATA.name}
-          currentStars={level2Stars}
-        />
-        <div className="flex items-center justify-center min-h-[70vh]">
-          <Card className="p-8 max-w-lg text-center">
-            {passed ? (
-              <>
-                <div className="text-6xl mb-4">🌉</div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                  ¡Puente Cruzado!
-                </h2>
-                <p className="text-xl text-gray-600 mb-6">
-                  Has obtenido <span className="font-bold text-yellow-600">{level2Stars} estrellas</span>
-                </p>
-                <p className="text-gray-600">
-                  El puente está completo. Preparándose para desbloquear la segunda palabra mágica...
-                </p>
-              </>
-            ) : (
-              <>
-                <AlertCircle size={64} className="text-orange-500 mx-auto mb-4" />
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                  El puente necesita refuerzo
-                </h2>
-                <p className="text-xl text-gray-600 mb-6">
-                  Obtuviste <span className="font-bold text-yellow-600">{level2Stars} estrellas</span>
-                </p>
-                <p className="text-gray-600 mb-6">
-                  Necesitas al menos {LEVEL2_DATA.minStars} estrellas para continuar.
-                </p>
-                <Button onClick={handleRetry} size="lg">
-                  Intentar de Nuevo
-                </Button>
-              </>
-            )}
-          </Card>
-        </div>
-      </ScreenContainer>
-    );
-  }
-
   return (
-    <ScreenContainer>
-      <GameHeader
-        levelName={LEVEL2_DATA.name}
-        currentStars={level2Stars}
-      />
+    <>
+      {levelComplete && (
+        <ScreenContainer>
+          <GameHeader
+            levelName={LEVEL2_DATA.name}
+            currentStars={level2Stars}
+          />
+          <div className="flex items-center justify-center min-h-[70vh]">
+            <Card className="p-8 max-w-lg text-center">
+              {canAdvanceLevel(2) ? (
+                <>
+                  <div className="text-6xl mb-4">🌉</div>
+                  <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                    ¡Puente Cruzado!
+                  </h2>
+                  <p className="text-xl text-gray-600 mb-6">
+                    Has obtenido <span className="font-bold text-yellow-600">{level2Stars} estrellas</span>
+                  </p>
+                  <p className="text-gray-600">
+                    El puente está completo. Preparándose para desbloquear la segunda palabra mágica...
+                  </p>
+                </>
+              ) : (
+                <>
+                  <AlertCircle size={64} className="text-orange-500 mx-auto mb-4" />
+                  <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                    El puente necesita refuerzo
+                  </h2>
+                  <p className="text-xl text-gray-600 mb-6">
+                    Obtuviste <span className="font-bold text-yellow-600">{level2Stars} estrellas</span>
+                  </p>
+                  <p className="text-gray-600 mb-6">
+                    Necesitas al menos {LEVEL2_DATA.minStars} estrellas para continuar.
+                  </p>
+                  <Button onClick={handleRetry} size="lg">
+                    Intentar de Nuevo
+                  </Button>
+                </>
+              )}
+            </Card>
+          </div>
+        </ScreenContainer>
+      )}
 
-      <div className="mt-8">
-        <Card className="max-w-2xl mx-auto p-6 mb-6 bg-indigo-50 border-2 border-indigo-200">
-          <p className="text-gray-700 leading-relaxed">
-            {LEVEL2_DATA.intro}
-          </p>
-        </Card>
+      {!levelComplete && (
+        <ScreenContainer>
+          <GameHeader
+            levelName={LEVEL2_DATA.name}
+            currentStars={level2Stars}
+          />
 
-        <BridgeProgress
-          current={completedChallenges}
-          total={LEVEL2_DATA.challenges.length}
-        />
+          <div className="mt-8">
+            <Card className="max-w-2xl mx-auto p-6 mb-6 bg-indigo-50 border-2 border-indigo-200">
+              <p className="text-gray-700 leading-relaxed">
+                {LEVEL2_DATA.intro}
+              </p>
+            </Card>
 
-        <ChallengeCard
-          challenge={currentChallenge}
-          onAnswer={handleAnswer}
-          challengeNumber={currentChallengeIndex + 1}
-          totalChallenges={LEVEL2_DATA.challenges.length}
-        />
+            <BridgeProgress
+              current={completedChallenges}
+              total={LEVEL2_DATA.challenges.length}
+            />
 
-        <div className="text-center mt-6">
-          <Button onClick={handleNext} size="lg">
-            {isLastChallenge ? 'Finalizar Nivel' : 'Siguiente Desafío'}
-          </Button>
-        </div>
-      </div>
+            <ChallengeCard
+              challenge={currentChallenge}
+              onAnswer={handleAnswer}
+              challengeNumber={currentChallengeIndex + 1}
+              totalChallenges={LEVEL2_DATA.challenges.length}
+            />
+
+            <div className="text-center mt-6">
+              <Button onClick={handleNext} size="lg">
+                {isLastChallenge ? 'Finalizar Nivel' : 'Siguiente Desafío'}
+              </Button>
+            </div>
+          </div>
+        </ScreenContainer>
+      )}
 
       {showUnlock && (
         <UnlockAnimation
@@ -155,6 +155,6 @@ export const Level2Screen: React.FC = () => {
           onComplete={handleUnlockComplete}
         />
       )}
-    </ScreenContainer>
+    </>
   );
 };

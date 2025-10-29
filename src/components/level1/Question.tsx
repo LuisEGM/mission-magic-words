@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card } from "../ui/Card";
 import { QuestionOption } from "./QuestionOption";
@@ -21,6 +21,13 @@ export const Question: React.FC<QuestionProps> = ({
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [answered, setAnswered] = useState(false);
+
+  // Reset state when question changes
+  useEffect(() => {
+    setSelectedOption(null);
+    setShowFeedback(false);
+    setAnswered(false);
+  }, [question.id]);
 
   const handleOptionClick = (optionId: string) => {
     if (answered) return;
