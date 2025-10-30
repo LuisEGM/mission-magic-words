@@ -6,6 +6,7 @@ import { StoryEditor } from "../components/level3/StoryEditor";
 import { SelfReviewChecklist } from "../components/level3/SelfReviewChecklist";
 import { Button } from "../components/ui/Button";
 import { UnlockAnimation } from "../components/shared/UnlockAnimation";
+import { CharacterDialogue } from "../components/shared/CharacterDialogue";
 import { Card } from "../components/ui/Card";
 import { useGameStore } from "../store/gameStore";
 import { LEVEL3_DATA } from "../data/level3Data";
@@ -103,36 +104,71 @@ export const Level3Screen: React.FC = () => {
           currentStars={level3Stars}
           showProgress={false}
         />
-        <div className="flex items-center justify-center min-h-[70vh]">
-          <Card className="p-8 max-w-4xl">
-            <div className="text-6xl text-center mb-4">🏰</div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-4 text-center">
-              {LEVEL3_DATA.name}
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-6">
-              {LEVEL3_DATA.intro}
-            </p>
-            <div className="bg-purple-50 border-2 border-purple-200 rounded-lg p-4 mb-6">
-              <h3 className="font-semibold text-gray-800 mb-2">Tu misión:</h3>
-              <ul className="list-disc list-inside space-y-1 text-gray-700">
-                <li>
-                  Escribe una historia original de{" "}
-                  {LEVEL3_DATA.requirements.minWords}-
-                  {LEVEL3_DATA.requirements.maxWords} palabras
+        <div className="flex flex-col items-center justify-center min-h-[70vh] gap-y-8 px-4">
+          <div className="text-6xl animate-bounce">🏰</div>
+          <h2 className="text-3xl md:text-4xl font-bold text-white text-center drop-shadow-lg">
+            {LEVEL3_DATA.name}
+          </h2>
+
+          <div className="w-full max-w-3xl">
+            <CharacterDialogue
+              text={LEVEL3_DATA.intro}
+              characterName="Guardián de las Historias"
+              position="left"
+            />
+          </div>
+
+          <Card className="p-6 max-w-2xl w-full">
+            <div className="bg-purple-50 border-2 border-purple-200 rounded-lg p-6">
+              <h3 className="font-bold text-gray-800 mb-4 text-lg flex items-center gap-2">
+                <span className="text-2xl">📝</span>
+                Tu misión:
+              </h3>
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-500 font-bold mt-1">✦</span>
+                  <span>
+                    Escribe una historia original de{" "}
+                    <strong>
+                      {LEVEL3_DATA.requirements.minWords}-
+                      {LEVEL3_DATA.requirements.maxWords} palabras
+                    </strong>
+                  </span>
                 </li>
-                <li>
-                  Usa al menos {LEVEL3_DATA.requirements.minWordBankUsage}{" "}
-                  palabras del banco mágico
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-500 font-bold mt-1">✦</span>
+                  <span>
+                    Usa al menos{" "}
+                    <strong>
+                      {LEVEL3_DATA.requirements.minWordBankUsage} palabras
+                    </strong>{" "}
+                    del banco mágico
+                  </span>
                 </li>
-                <li>
-                  Incluye al menos {LEVEL3_DATA.requirements.minDialogues}{" "}
-                  diálogo
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-500 font-bold mt-1">✦</span>
+                  <span>
+                    Incluye al menos{" "}
+                    <strong>
+                      {LEVEL3_DATA.requirements.minDialogues} diálogo
+                    </strong>
+                  </span>
                 </li>
-                <li>Asegúrate de que tenga inicio, desarrollo y final</li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-500 font-bold mt-1">✦</span>
+                  <span>
+                    Asegúrate de que tenga{" "}
+                    <strong>inicio, desarrollo y final</strong>
+                  </span>
+                </li>
               </ul>
             </div>
-            <Button onClick={handleStartWriting} size="lg" className="w-full">
-              Comenzar a Escribir
+            <Button
+              onClick={handleStartWriting}
+              size="lg"
+              className="w-full mt-6"
+            >
+              Comenzar a Escribir ✍️
             </Button>
           </Card>
         </div>
@@ -224,7 +260,8 @@ export const Level3Screen: React.FC = () => {
             </>
           ) : (
             <>
-              <AlertCircle size={64} className="text-orange-500 mx-auto mb-4" />
+              {/* <AlertCircle size={64} className="text-orange-500 mx-auto mb-4" /> */}
+              <div className="text-6xl">🚫</div>
               <h2 className="text-3xl font-bold text-gray-800 mb-4">
                 Buen intento
               </h2>

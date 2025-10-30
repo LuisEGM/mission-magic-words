@@ -5,6 +5,7 @@ import { StoryDisplay } from "../components/level1/StoryDisplay";
 import { Question } from "../components/level1/Question";
 import { Button } from "../components/ui/Button";
 import { UnlockAnimation } from "../components/shared/UnlockAnimation";
+import { CharacterDialogue } from "../components/shared/CharacterDialogue";
 import { Card } from "../components/ui/Card";
 import { useGameStore } from "../store/gameStore";
 import { LEVEL1_DATA } from "../data/level1Data";
@@ -89,11 +90,13 @@ export const Level1Screen: React.FC = () => {
             showProgress={false}
           />
           <div className="mt-8">
-            <Card className="max-w-2xl mx-auto p-6 mb-6 bg-purple-50 border-2 border-purple-200">
-              <p className="text-gray-700 leading-relaxed">
-                {LEVEL1_DATA.intro}
-              </p>
-            </Card>
+            <div className="max-w-3xl mx-auto mb-8">
+              <CharacterDialogue
+                text={LEVEL1_DATA.intro}
+                characterName="Guardián de las Historias"
+                position="left"
+              />
+            </div>
             <StoryDisplay
               story={LEVEL1_DATA.story}
               onStartQuestions={handleStartQuestions}
@@ -141,10 +144,11 @@ export const Level1Screen: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <AlertCircle
+                  {/* <AlertCircle
                     size={64}
                     className="text-orange-500 mx-auto mb-4"
-                  />
+                  /> */}
+                  <div className="text-6xl">🚫</div>
                   <h2 className="text-3xl font-bold text-gray-800 mb-4">
                     Casi lo logras
                   </h2>

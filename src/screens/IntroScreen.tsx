@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { BookOpen, Sparkles } from "lucide-react";
 import { ScreenContainer } from "../components/layout/ScreenContainer";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
+import { CharacterDialogue } from "../components/shared/CharacterDialogue";
 import { useGameStore } from "../store/gameStore";
 import { INTRO_TEXT } from "../data/gameData";
 
@@ -25,9 +25,9 @@ export const IntroScreen: React.FC = () => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200 }}
-          className="mb-8"
+          className=""
         >
-          <BookOpen size={80} className="text-yellow-300 drop-shadow-lg" />
+          <div className="text-8xl">📖</div>
         </motion.div>
 
         <motion.h1
@@ -45,26 +45,25 @@ export const IntroScreen: React.FC = () => {
           transition={{ delay: 0.4 }}
           className="flex items-center gap-2 mb-8"
         >
-          <Sparkles className="text-yellow-300" size={20} />
+          <div className="text-3xl">✨</div>
           <p className="text-xl text-yellow-200 font-medium">
             Una Aventura de Lectura y Creatividad
           </p>
-          <Sparkles className="text-yellow-300" size={20} />
+          <div className="text-3xl">✨</div>
         </motion.div>
 
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="w-full max-w-2xl flex flex-col gap-y-6"
+          className="w-full max-w-3xl flex flex-col gap-y-6"
         >
-          <Card className="p-8 mb-6">
-            <div className="prose prose-lg max-w-none">
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {INTRO_TEXT.story}
-              </p>
-            </div>
-          </Card>
+          <CharacterDialogue
+            text={INTRO_TEXT.story}
+            characterName="Guardián de las Historias"
+            position="left"
+            className="mb-6"
+          />
 
           <Card className="p-6">
             <label

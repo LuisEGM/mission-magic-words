@@ -5,6 +5,7 @@ import { ChallengeCard } from "../components/level2/ChallengeCard";
 import { BridgeProgress } from "../components/level2/BridgeProgress";
 import { Button } from "../components/ui/Button";
 import { UnlockAnimation } from "../components/shared/UnlockAnimation";
+import { CharacterDialogue } from "../components/shared/CharacterDialogue";
 import { Card } from "../components/ui/Card";
 import { useGameStore } from "../store/gameStore";
 import { LEVEL2_DATA } from "../data/level2Data";
@@ -115,10 +116,11 @@ export const Level2Screen: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <AlertCircle
+                  {/* <AlertCircle
                     size={64}
                     className="text-orange-500 mx-auto mb-4"
-                  />
+                  /> */}
+                  <div className="text-6xl">🚫</div>
                   <h2 className="text-3xl font-bold text-gray-800 mb-4">
                     El puente necesita refuerzo
                   </h2>
@@ -147,11 +149,13 @@ export const Level2Screen: React.FC = () => {
           <GameHeader levelName={LEVEL2_DATA.name} currentStars={level2Stars} />
 
           <div className="mt-8">
-            <Card className="max-w-4xl mx-auto p-6 mb-6 bg-indigo-50 border-2 border-indigo-200">
-              <p className="text-gray-700 leading-relaxed">
-                {LEVEL2_DATA.intro}
-              </p>
-            </Card>
+            <div className="max-w-3xl mx-auto mb-8">
+              <CharacterDialogue
+                text={LEVEL2_DATA.intro}
+                characterName="Guardián de las Historias"
+                position="left"
+              />
+            </div>
 
             <BridgeProgress
               current={completedChallenges}
