@@ -12,7 +12,6 @@ import { useGameStore } from "../store/gameStore";
 import { LEVEL3_DATA } from "../data/level3Data";
 import { MAGIC_WORDS } from "../data/gameData";
 import { analyzeStory, evaluateStory } from "../utils/textAnalyzer";
-import { AlertCircle } from "lucide-react";
 
 type Level3Stage = "intro" | "select-image" | "write" | "review" | "complete";
 

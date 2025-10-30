@@ -10,7 +10,6 @@ import { Card } from "../components/ui/Card";
 import { useGameStore } from "../store/gameStore";
 import { LEVEL1_DATA } from "../data/level1Data";
 import { MAGIC_WORDS } from "../data/gameData";
-import { AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const Level1Screen: React.FC = () => {
@@ -18,6 +17,7 @@ export const Level1Screen: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showUnlock, setShowUnlock] = useState(false);
   const [levelComplete, setLevelComplete] = useState(false);
+  const [hasAnswered, setHasAnswered] = useState(false);
 
   const {
     level1Stars,
@@ -49,6 +49,7 @@ export const Level1Screen: React.FC = () => {
       starsEarned: stars,
       attempts: 1,
     });
+    setHasAnswered(true);
   };
 
   const handleNext = () => {
@@ -64,6 +65,7 @@ export const Level1Screen: React.FC = () => {
       }
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
+      setHasAnswered(false);
     }
   };
 
@@ -74,6 +76,7 @@ export const Level1Screen: React.FC = () => {
   const handleRetry = () => {
     setCurrentQuestionIndex(0);
     setLevelComplete(false);
+    setHasAnswered(false);
   };
 
   const handleNextLevel = () => {
@@ -184,7 +187,7 @@ export const Level1Screen: React.FC = () => {
             />
 
             <div className="text-center mt-6">
-              <Button onClick={handleNext} size="lg">
+              <Button onClick={handleNext} size="lg" disabled={!hasAnswered}>
                 {isLastQuestion ? "Finalizar Nivel" : "Siguiente Pregunta"}
               </Button>
             </div>
