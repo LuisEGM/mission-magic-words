@@ -1,36 +1,36 @@
-import React from 'react';
-import { Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { Star } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface StarCounterProps {
   count: number;
   animated?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 }
 
 export const StarCounter: React.FC<StarCounterProps> = ({
   count,
   animated = false,
-  size = 'md'
+  size = "md",
 }) => {
   const sizeStyles = {
-    sm: 'text-lg',
-    md: 'text-2xl',
-    lg: 'text-4xl'
+    sm: "text-lg",
+    md: "text-2xl",
+    lg: "text-4xl",
   };
 
   const iconSizes = {
     sm: 20,
     md: 28,
-    lg: 36
+    lg: 36,
   };
 
-  const Component = animated ? motion.div : 'div';
+  const Component = animated ? motion.div : "div";
   const animationProps = animated
     ? {
         initial: { scale: 0 },
         animate: { scale: 1 },
-        transition: { type: 'spring', stiffness: 200, damping: 10 }
+        transition: { type: "spring" as const, stiffness: 200, damping: 10 },
       }
     : {};
 

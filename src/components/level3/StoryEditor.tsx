@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Card } from '../ui/Card';
-import { WordBank } from './WordBank';
-import { AlertCircle, FileText } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Card } from "../ui/Card";
+import { WordBank } from "./WordBank";
+import { AlertCircle, FileText } from "lucide-react";
 
 interface StoryEditorProps {
   wordBank: string[];
@@ -20,25 +20,32 @@ export const StoryEditor: React.FC<StoryEditorProps> = ({
   onTitleChange,
   onTextChange,
   title,
-  text
+  text,
 }) => {
   const [wordCount, setWordCount] = useState(0);
   const [usedWords, setUsedWords] = useState<string[]>([]);
 
   useEffect(() => {
-    const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+    const words = text
+      .trim()
+      .split(/\s+/)
+      .filter((w) => w.length > 0);
     setWordCount(words.length);
 
     // Check which words from the bank are used
-    const textLower = (text + ' ' + title).toLowerCase();
-    const used = wordBank.filter(word => textLower.includes(word.toLowerCase()));
+    const textLower = (text + " " + title).toLowerCase();
+    const used = wordBank.filter((word) =>
+      textLower.includes(word.toLowerCase())
+    );
     setUsedWords(used);
   }, [text, title, wordBank]);
 
-  const isWordCountValid = wordCount >= minWords && wordCount <= maxWords;
-  const wordCountColor = wordCount < minWords ? 'text-orange-600' :
-                         wordCount > maxWords ? 'text-red-600' :
-                         'text-green-600';
+  const wordCountColor =
+    wordCount < minWords
+      ? "text-orange-600"
+      : wordCount > maxWords
+      ? "text-red-600"
+      : "text-green-600";
 
   return (
     <Card className="p-6 max-w-4xl mx-auto">
@@ -52,7 +59,10 @@ export const StoryEditor: React.FC<StoryEditorProps> = ({
       <WordBank words={wordBank} usedWords={usedWords} />
 
       <div className="mb-4">
-        <label htmlFor="story-title" className="block text-sm font-semibold text-gray-700 mb-2">
+        <label
+          htmlFor="story-title"
+          className="block text-sm font-semibold text-gray-700 mb-2"
+        >
           Título de tu historia
         </label>
         <input
@@ -68,7 +78,10 @@ export const StoryEditor: React.FC<StoryEditorProps> = ({
 
       <div className="mb-4">
         <div className="flex justify-between items-center mb-2">
-          <label htmlFor="story-text" className="block text-sm font-semibold text-gray-700">
+          <label
+            htmlFor="story-text"
+            className="block text-sm font-semibold text-gray-700"
+          >
             Tu historia
           </label>
           <span className={`text-sm font-bold ${wordCountColor}`}>
@@ -87,14 +100,17 @@ export const StoryEditor: React.FC<StoryEditorProps> = ({
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-start gap-2">
-          <AlertCircle className="text-blue-600 flex-shrink-0 mt-0.5" size={20} />
+          <AlertCircle
+            className="text-blue-600 flex-shrink-0 mt-0.5"
+            size={20}
+          />
           <div className="text-sm text-blue-800">
             <p className="font-semibold mb-1">Requisitos:</p>
             <ul className="list-disc list-inside space-y-1">
-              <li className={wordCount >= minWords ? 'text-green-700' : ''}>
+              <li className={wordCount >= minWords ? "text-green-700" : ""}>
                 Entre {minWords} y {maxWords} palabras (tienes {wordCount})
               </li>
-              <li className={usedWords.length >= 3 ? 'text-green-700' : ''}>
+              <li className={usedWords.length >= 3 ? "text-green-700" : ""}>
                 Usar al menos 3 palabras del banco (tienes {usedWords.length})
               </li>
               <li>Incluir al menos un diálogo</li>
