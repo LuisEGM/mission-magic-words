@@ -83,7 +83,7 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3 }}
     >
-      <Card className="p-6 max-w-3xl mx-auto">
+      <Card className="p-6 max-w-4xl mx-auto">
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {getTypeIcon(challenge.type)}

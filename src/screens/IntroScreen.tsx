@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { BookOpen, Sparkles } from 'lucide-react';
-import { ScreenContainer } from '../components/layout/ScreenContainer';
-import { Card } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
-import { useGameStore } from '../store/gameStore';
-import { INTRO_TEXT } from '../data/gameData';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { BookOpen, Sparkles } from "lucide-react";
+import { ScreenContainer } from "../components/layout/ScreenContainer";
+import { Card } from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
+import { useGameStore } from "../store/gameStore";
+import { INTRO_TEXT } from "../data/gameData";
 
 export const IntroScreen: React.FC = () => {
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const { setPlayerName, setCurrentScreen } = useGameStore();
 
   const handleStart = () => {
     if (name.trim()) {
       setPlayerName(name.trim());
-      setCurrentScreen('level1');
+      setCurrentScreen("level1");
     }
   };
 
   return (
     <ScreenContainer>
-      <div className="flex flex-col items-center justify-center min-h-[90vh]">
+      <div className="flex flex-col items-center justify-center min-h-[90vh] gap-y-6">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
-          transition={{ type: 'spring', stiffness: 200 }}
+          transition={{ type: "spring", stiffness: 200 }}
           className="mb-8"
         >
           <BookOpen size={80} className="text-yellow-300 drop-shadow-lg" />
@@ -56,7 +56,7 @@ export const IntroScreen: React.FC = () => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="w-full max-w-2xl"
+          className="w-full max-w-2xl flex flex-col gap-y-6"
         >
           <Card className="p-8 mb-6">
             <div className="prose prose-lg max-w-none">
@@ -67,7 +67,10 @@ export const IntroScreen: React.FC = () => {
           </Card>
 
           <Card className="p-6">
-            <label htmlFor="playerName" className="block text-lg font-semibold text-gray-700 mb-3">
+            <label
+              htmlFor="playerName"
+              className="block text-lg font-semibold text-gray-700 mb-3"
+            >
               ¿Cuál es tu nombre, Aprendiz de Guardián?
             </label>
             <input
@@ -75,7 +78,7 @@ export const IntroScreen: React.FC = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleStart()}
+              onKeyPress={(e) => e.key === "Enter" && handleStart()}
               placeholder="Escribe tu nombre aquí..."
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-lg mb-4"
               autoFocus

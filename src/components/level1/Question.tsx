@@ -73,7 +73,7 @@ export const Question: React.FC<QuestionProps> = ({
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.3 }}
     >
-      <Card className="p-6 max-w-3xl mx-auto">
+      <Card className="p-6 max-w-4xl mx-auto">
         <div className="mb-4 flex items-center justify-between">
           <span className="text-sm font-medium text-gray-600">
             Pregunta {questionNumber} de {totalQuestions}
