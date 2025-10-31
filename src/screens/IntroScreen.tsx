@@ -6,6 +6,7 @@ import { Button } from "../components/ui/Button";
 import { CharacterDialogue } from "../components/shared/CharacterDialogue";
 import { useGameStore } from "../store/gameStore";
 import { INTRO_TEXT } from "../data/gameData";
+import { audioService } from "../services/audioService";
 
 export const IntroScreen: React.FC = () => {
   const [name, setName] = useState("");
@@ -13,6 +14,7 @@ export const IntroScreen: React.FC = () => {
 
   const handleStart = () => {
     if (name.trim()) {
+      audioService.play("click");
       setPlayerName(name.trim());
       setCurrentScreen("level1");
     }

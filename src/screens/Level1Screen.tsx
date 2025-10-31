@@ -11,6 +11,7 @@ import { useGameStore } from "../store/gameStore";
 import { LEVEL1_DATA } from "../data/level1Data";
 import { MAGIC_WORDS } from "../data/gameData";
 import { motion } from "framer-motion";
+import { audioService } from "../services/audioService";
 
 export const Level1Screen: React.FC = () => {
   const [showStory, setShowStory] = useState(true);
@@ -34,6 +35,7 @@ export const Level1Screen: React.FC = () => {
 
   const handleStartQuestions = () => {
     setShowStory(false);
+    audioService.play("click");
   };
 
   const handleAnswer = (
@@ -41,6 +43,16 @@ export const Level1Screen: React.FC = () => {
     isCorrect: boolean,
     stars: number
   ) => {
+    // Play sound based on correctness
+    if (isCorrect) {
+      audioService.play("correct");
+      if (stars > 0) {
+        setTimeout(() => audioService.play("star"), 500);
+      }
+    } else {
+      audioService.play("wrong");
+    }
+
     addStars(1, stars);
     submitAnswer(1, {
       questionId: currentQuestion.id,
@@ -53,15 +65,24 @@ export const Level1Screen: React.FC = () => {
   };
 
   const handleNext = () => {
+    audioService.play("click");
+
     if (isLastQuestion) {
       setLevelComplete(true);
 
       if (canAdvanceLevel(1)) {
+        audioService.play("levelComplete");
         const magicWord = MAGIC_WORDS.find((w) => w.level === 1);
         if (magicWord) {
           unlockMagicWord(magicWord);
-          setTimeout(() => setShowUnlock(true), 500);
+          setTimeout(() => {
+            setShowUnlock(true);
+            audioService.play("unlock");
+          }, 1200);
         }
+      } else {
+        // Level completed but insufficient stars
+        audioService.play("levelFailed");
       }
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
@@ -112,65 +133,77 @@ export const Level1Screen: React.FC = () => {
         <ScreenContainer>
           <GameHeader levelName={LEVEL1_DATA.name} currentStars={level1Stars} />
           <div className="flex items-center justify-center min-h-[70vh]">
-            <Card className="p-8 max-w-lg text-center min-w-4xl w-full">
-              {canAdvanceLevel(1) ? (
-                <>
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      rotate: [0, 5, -5, 0],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    className="mb-6"
-                  >
-                    <div className="text-6xl mx-auto">🎉</div>
-                  </motion.div>
-                  <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                    ¡Nivel Completado!
-                  </h2>
-                  <p className="text-xl text-gray-600 mb-6">
-                    Has obtenido{" "}
-                    <span className="font-bold text-yellow-600">
-                      {level1Stars} estrellas
-                    </span>
-                  </p>
-                  {/* <p className="text-gray-600">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 20,
+                duration: 0.6,
+              }}
+              className="w-full flex items-center justify-center"
+            >
+              <Card className="p-8 max-w-lg text-center min-w-4xl w-full">
+                {canAdvanceLevel(1) ? (
+                  <>
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        rotate: [0, 5, -5, 0],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      className="mb-6"
+                    >
+                      <div className="text-6xl mx-auto">🎉</div>
+                    </motion.div>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                      ¡Nivel Completado!
+                    </h2>
+                    <p className="text-xl text-gray-600 mb-6">
+                      Has obtenido{" "}
+                      <span className="font-bold text-yellow-600">
+                        {level1Stars} estrellas
+                      </span>
+                    </p>
+                    {/* <p className="text-gray-600">
                     Preparándose para desbloquear la primera palabra mágica...
                   </p> */}
-                  <Button onClick={handleNextLevel} size="lg">
-                    Siguiente nivel
-                  </Button>
-                </>
-              ) : (
-                <>
-                  {/* <AlertCircle
+                    <Button onClick={handleNextLevel} size="lg">
+                      Siguiente nivel
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    {/* <AlertCircle
                     size={64}
                     className="text-orange-500 mx-auto mb-4"
                   /> */}
-                  <div className="text-6xl">🚫</div>
-                  <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                    Casi lo logras
-                  </h2>
-                  <p className="text-xl text-gray-600 mb-6">
-                    Obtuviste{" "}
-                    <span className="font-bold text-yellow-600">
-                      {level1Stars} estrellas
-                    </span>
-                  </p>
-                  <p className="text-gray-600 mb-6">
-                    Necesitas al menos {LEVEL1_DATA.minStars} estrellas para
-                    continuar.
-                  </p>
-                  <Button onClick={handleRetry} size="lg">
-                    Intentar de Nuevo
-                  </Button>
-                </>
-              )}
-            </Card>
+                    <div className="text-6xl">🚫</div>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                      Casi lo logras
+                    </h2>
+                    <p className="text-xl text-gray-600 mb-6">
+                      Obtuviste{" "}
+                      <span className="font-bold text-yellow-600">
+                        {level1Stars} estrellas
+                      </span>
+                    </p>
+                    <p className="text-gray-600 mb-6">
+                      Necesitas al menos {LEVEL1_DATA.minStars} estrellas para
+                      continuar.
+                    </p>
+                    <Button onClick={handleRetry} size="lg">
+                      Intentar de Nuevo
+                    </Button>
+                  </>
+                )}
+              </Card>
+            </motion.div>
           </div>
         </ScreenContainer>
       )}

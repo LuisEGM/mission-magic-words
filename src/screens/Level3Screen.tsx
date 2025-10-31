@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { ScreenContainer } from "../components/layout/ScreenContainer";
 import { GameHeader } from "../components/layout/GameHeader";
 import { InspirationSelector } from "../components/level3/InspirationSelector";
@@ -12,6 +13,7 @@ import { useGameStore } from "../store/gameStore";
 import { LEVEL3_DATA } from "../data/level3Data";
 import { MAGIC_WORDS } from "../data/gameData";
 import { analyzeStory, evaluateStory } from "../utils/textAnalyzer";
+import { audioService } from "../services/audioService";
 
 type Level3Stage = "intro" | "select-image" | "write" | "review" | "complete";
 
@@ -36,6 +38,7 @@ export const Level3Screen: React.FC = () => {
   };
 
   const handleImageSelect = (imageId: number) => {
+    audioService.play("click");
     setSelectedImage(imageId);
     setStage("write");
   };
@@ -46,17 +49,20 @@ export const Level3Screen: React.FC = () => {
       .split(/\s+/)
       .filter((w) => w.length > 0).length;
     if (wordCount < LEVEL3_DATA.requirements.minWords) {
+      audioService.play("wrong");
       alert(
         `Tu historia necesita al menos ${LEVEL3_DATA.requirements.minWords} palabras. Actualmente tiene ${wordCount}.`
       );
       return;
     }
     if (wordCount > LEVEL3_DATA.requirements.maxWords) {
+      audioService.play("wrong");
       alert(
         `Tu historia no debe exceder ${LEVEL3_DATA.requirements.maxWords} palabras. Actualmente tiene ${wordCount}.`
       );
       return;
     }
+    audioService.play("click");
     setStage("review");
   };
 
@@ -78,11 +84,18 @@ export const Level3Screen: React.FC = () => {
     setStage("complete");
 
     if (canAdvanceLevel(3)) {
+      audioService.play("levelComplete");
       const magicWord = MAGIC_WORDS.find((w) => w.level === 3);
       if (magicWord) {
         unlockMagicWord(magicWord);
-        setTimeout(() => setShowUnlock(true), 1000);
+        setTimeout(() => {
+          setShowUnlock(true);
+          audioService.play("unlock");
+        }, 1200);
       }
+    } else {
+      // Level completed but insufficient stars
+      audioService.play("levelFailed");
     }
   };
 
@@ -239,47 +252,59 @@ export const Level3Screen: React.FC = () => {
     <ScreenContainer>
       <GameHeader levelName={LEVEL3_DATA.name} currentStars={level3Stars} />
       <div className="flex items-center justify-center min-h-[70vh]">
-        <Card className="p-8 max-w-lg text-center">
-          {passed ? (
-            <>
-              <div className="text-6xl mb-4">📖</div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                ¡Historia Completada!
-              </h2>
-              <p className="text-xl text-gray-600 mb-6">
-                Has obtenido{" "}
-                <span className="font-bold text-yellow-600">
-                  {level3Stars} estrellas
-                </span>
-              </p>
-              <p className="text-gray-600">
-                Tu creatividad ha sido excepcional. Preparándose para
-                desbloquear la última palabra mágica...
-              </p>
-            </>
-          ) : (
-            <>
-              {/* <AlertCircle size={64} className="text-orange-500 mx-auto mb-4" /> */}
-              <div className="text-6xl">🚫</div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                Buen intento
-              </h2>
-              <p className="text-xl text-gray-600 mb-6">
-                Obtuviste{" "}
-                <span className="font-bold text-yellow-600">
-                  {level3Stars} estrellas
-                </span>
-              </p>
-              <p className="text-gray-600 mb-6">
-                Necesitas al menos {LEVEL3_DATA.minStars} estrellas para
-                continuar. Intenta mejorar tu historia.
-              </p>
-              <Button onClick={handleRetry} size="lg">
-                Mejorar Historia
-              </Button>
-            </>
-          )}
-        </Card>
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0, y: 50 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 20,
+            duration: 0.6,
+          }}
+          className="w-full flex items-center justify-center"
+        >
+          <Card className="p-8 text-center">
+            {passed ? (
+              <>
+                <div className="text-6xl mb-4">📖</div>
+                <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                  ¡Historia Completada!
+                </h2>
+                <p className="text-xl text-gray-600 mb-6">
+                  Has obtenido{" "}
+                  <span className="font-bold text-yellow-600">
+                    {level3Stars} estrellas
+                  </span>
+                </p>
+                <p className="text-gray-600">
+                  Tu creatividad ha sido excepcional. Preparándose para
+                  desbloquear la última palabra mágica...
+                </p>
+              </>
+            ) : (
+              <>
+                {/* <AlertCircle size={64} className="text-orange-500 mx-auto mb-4" /> */}
+                <div className="text-6xl">🚫</div>
+                <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                  Buen intento
+                </h2>
+                <p className="text-xl text-gray-600 mb-6">
+                  Obtuviste{" "}
+                  <span className="font-bold text-yellow-600">
+                    {level3Stars} estrellas
+                  </span>
+                </p>
+                <p className="text-gray-600 mb-6">
+                  Necesitas al menos {LEVEL3_DATA.minStars} estrellas para
+                  continuar. Intenta mejorar tu historia.
+                </p>
+                <Button onClick={handleRetry} size="lg">
+                  Mejorar Historia
+                </Button>
+              </>
+            )}
+          </Card>
+        </motion.div>
       </div>
 
       {showUnlock && (

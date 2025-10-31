@@ -8,6 +8,7 @@ import { Button } from "../components/ui/Button";
 import { useGameStore } from "../store/gameStore";
 import { generateDiploma } from "../utils/diplomaGenerator";
 import { GAME_CONFIG } from "../data/gameData";
+import { audioService } from "../services/audioService";
 
 export const FinalScreen: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -29,6 +30,9 @@ export const FinalScreen: React.FC = () => {
   );
 
   React.useEffect(() => {
+    // Play victory sound
+    audioService.play("finalVictory");
+
     // Trigger confetti on mount
     const duration = 3000;
     const end = Date.now() + duration;
@@ -59,6 +63,7 @@ export const FinalScreen: React.FC = () => {
   }, []);
 
   const handleDownloadDiploma = async () => {
+    audioService.play("click");
     setIsGenerating(true);
     try {
       await generateDiploma(playerName, totalStars, guardianLevel.name);
@@ -76,6 +81,7 @@ export const FinalScreen: React.FC = () => {
         "¿Estás seguro de que quieres reiniciar el juego? Se perderá todo tu progreso."
       )
     ) {
+      audioService.play("click");
       resetGame();
       setCurrentScreen("intro");
     }
