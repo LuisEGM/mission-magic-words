@@ -8,6 +8,7 @@ import { SelfReviewChecklist } from "../components/level3/SelfReviewChecklist";
 import { AIFeedback } from "../components/level3/AIFeedback";
 import { ProgrammaticFeedback } from "../components/level3/ProgrammaticFeedback";
 import { Button } from "../components/ui/Button";
+import { ShinyButton } from "../components/ui/ShinyButton";
 import { UnlockAnimation } from "../components/shared/UnlockAnimation";
 import { CharacterDialogue } from "../components/shared/CharacterDialogue";
 import { Card } from "../components/ui/Card";
@@ -373,27 +374,18 @@ export const Level3Screen: React.FC = () => {
                       <p className="text-sm text-red-700">{evaluationError}</p>
                     </div>
                   )}
-                  <Button
+                  <ShinyButton
                     onClick={handleEvaluateWithAI}
                     disabled={isEvaluating}
-                    size="lg"
-                    className="bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 flex gap-2 items-center justify-center"
+                    loading={isEvaluating}
                   >
-                    {isEvaluating ? (
-                      <>
-                        {/* <Loader2 className="animate-spin mr-2" size={20} /> */}
-                        <div className="text-4xl">🧙‍♂️</div>
-                        Evaluando tu historia...
-                      </>
-                    ) : (
-                      <>
-                        {/* <Sparkles className="mr-2" size={20} /> */}
-                        <div className="text-4xl">🧙‍♂️</div>
-                        Evaluar con IA
-                      </>
-                    )}
-                  </Button>
-                  <p className="text-xs text-gray-500 mt-2">
+                    <div className="text-3xl">🧙‍♂️</div>
+                    Evaluar con IA
+                  </ShinyButton>
+                  <p className="text-sm text-gray-500 mt-2">
+                    ✨ Evaluación mágica con Inteligencia Artificial
+                  </p>
+                  <p className="text-xs text-gray-400">
                     Esto puede tomar 10-20 segundos
                   </p>
                 </div>
@@ -424,6 +416,7 @@ export const Level3Screen: React.FC = () => {
               onClick={() => setStage("write")}
               variant="outline"
               size="lg"
+              className="border-white text-white hover:bg-transparent"
             >
               Mejorar Historia
             </Button>

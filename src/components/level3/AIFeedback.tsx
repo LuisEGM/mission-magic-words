@@ -1,7 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Card } from "../ui/Card";
-import { Star, Sparkles, TrendingUp, MessageCircle, BookOpen } from "lucide-react";
+import {
+  Star,
+  Sparkles,
+  TrendingUp,
+  MessageCircle,
+  BookOpen,
+} from "lucide-react";
 import type { AIStoryEvaluation } from "../../types";
 
 interface AIFeedbackProps {
@@ -40,7 +46,7 @@ export const AIFeedback: React.FC<AIFeedbackProps> = ({ evaluation }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-6"
+      className="space-y-6 max-w-4xl mx-auto"
     >
       {/* Header con puntaje total */}
       <Card className="p-6 bg-gradient-to-r from-purple-50 to-blue-50">
@@ -71,47 +77,48 @@ export const AIFeedback: React.FC<AIFeedbackProps> = ({ evaluation }) => {
 
       {/* Criterios individuales */}
       <div className="grid gap-4 md:grid-cols-2">
-        {(Object.keys(criteriaLabels) as Array<keyof typeof criteriaLabels>).map(
-          (key) => {
-            const Icon = criteriaIcons[key];
-            const criterion = evaluation[key];
-            const score = criterion.score;
+        {(
+          Object.keys(criteriaLabels) as Array<keyof typeof criteriaLabels>
+        ).map((key) => {
+          const Icon = criteriaIcons[key];
+          const criterion = evaluation[key];
+          const score = criterion.score;
 
-            return (
-              <Card key={key} className="p-4">
-                <div className="flex items-start gap-3">
-                  <div
-                    className={`p-2 rounded-lg ${getScoreBg(score)} ${getScoreColor(score)}`}
-                  >
-                    <Icon size={24} />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h5 className="font-bold text-gray-800">
-                        {criteriaLabels[key]}
-                      </h5>
-                      <span
-                        className={`text-lg font-bold ${getScoreColor(score)}`}
-                      >
-                        {score}★
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                      {criterion.feedback}
-                    </p>
-                  </div>
+          return (
+            <Card key={key} className="p-4">
+              <div className="flex items-start gap-3">
+                <div
+                  className={`p-2 rounded-lg ${getScoreBg(
+                    score
+                  )} ${getScoreColor(score)}`}
+                >
+                  <Icon size={24} />
                 </div>
-              </Card>
-            );
-          }
-        )}
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-2">
+                    <h5 className="font-bold text-gray-800">
+                      {criteriaLabels[key]}
+                    </h5>
+                    <span
+                      className={`text-lg font-bold ${getScoreColor(score)}`}
+                    >
+                      {score}★
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    {criterion.feedback}
+                  </p>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Fortalezas */}
       <Card className="p-6 bg-green-50">
         <h4 className="text-lg font-bold text-green-700 mb-3 flex items-center gap-2">
-          <TrendingUp size={20} />
-          ✨ Fortalezas de tu Historia
+          <TrendingUp size={20} />✨ Fortalezas de tu Historia
         </h4>
         <ul className="space-y-2">
           {evaluation.strengths.map((strength, index) => (
@@ -175,4 +182,3 @@ export const AIFeedback: React.FC<AIFeedbackProps> = ({ evaluation }) => {
     </motion.div>
   );
 };
-
