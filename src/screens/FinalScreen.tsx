@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
-import { Star, Download, RotateCcw, Award } from "lucide-react";
+import { Download, RotateCcw } from "lucide-react";
 import { ScreenContainer } from "../components/layout/ScreenContainer";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
