@@ -6,8 +6,8 @@ export const LEVEL2_DATA: Level2Data = {
   magicWord: "CREATIVIDAD",
   badge: "Maestro de Palabras",
   duration: "8-10 minutos",
-  maxStars: 96,
-  minStars: 65,
+  maxStars: 100,
+  minStars: 70,
   intro:
     "Has llegado al Puente de los Enigmas, un antiguo paso suspendido sobre el Río del Olvido. Para cruzar y recuperar la segunda Palabra Mágica, CREATIVIDAD, debes resolver acertijos y demostrar tu dominio del lenguaje. Cada desafío superado hace que el puente se fortalezca.",
 
@@ -15,7 +15,7 @@ export const LEVEL2_DATA: Level2Data = {
     {
       id: 1,
       type: "acertijo",
-      stars: 12,
+      stars: 13,
       question:
         "Blanca por dentro, verde por fuera. Si quieres que te lo diga, espera.",
       options: [
@@ -33,7 +33,7 @@ export const LEVEL2_DATA: Level2Data = {
     {
       id: 2,
       type: "acertijo",
-      stars: 12,
+      stars: 13,
       question:
         "Tengo agujas pero no coso, tengo números pero no soy matemático. ¿Qué soy?",
       options: [
@@ -92,7 +92,7 @@ export const LEVEL2_DATA: Level2Data = {
     {
       id: 5,
       type: "emociones",
-      stars: 12,
+      stars: 13,
       question:
         "¿Qué emoción siente alguien cuando pierde algo muy importante para ellos?",
       options: [
@@ -148,7 +148,7 @@ export const LEVEL2_DATA: Level2Data = {
     {
       id: 8,
       type: "emociones",
-      stars: 12,
+      stars: 13,
       question: "Si alguien está 'orgulloso', significa que se siente...",
       options: [
         { id: "a", text: "Avergonzado de sus logros", correct: false },

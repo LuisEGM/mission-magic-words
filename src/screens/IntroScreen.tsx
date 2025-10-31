@@ -16,7 +16,7 @@ export const IntroScreen: React.FC = () => {
     if (name.trim()) {
       audioService.play("click");
       setPlayerName(name.trim());
-      setCurrentScreen("level3");
+      setCurrentScreen("level1");
     }
   };
 

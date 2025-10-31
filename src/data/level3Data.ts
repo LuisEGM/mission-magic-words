@@ -10,7 +10,7 @@ export const LEVEL3_DATA: Level3Data = {
   badge: "Creador de Mundos",
   duration: "15-18 minutos",
   maxStars: 100,
-  minStars: 65,
+  minStars: 70,
   intro:
     "Has llegado al Castillo de las Historias Infinitas, donde las mejores historias del mundo cobran vida. Para recuperar la última Palabra Mágica, VALENTÍA, debes crear tu propia historia. Deja volar tu imaginación y demuestra tu creatividad como escritor.",
 

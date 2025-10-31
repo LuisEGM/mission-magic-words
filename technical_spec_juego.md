@@ -1,4 +1,5 @@
 # Technical Specification: La Misión de las Palabras Mágicas
+
 **Educational Gamification Experience - React Web App**
 
 Version: 1.0  
@@ -26,15 +27,18 @@ Target: Claude Code AI Development
 ## 1. PROJECT OVERVIEW
 
 ### 1.1 Purpose
+
 Build a single-page web application (SPA) that delivers a 30-40 minute gamified educational experience focused on reading comprehension and creative writing for 6th grade students in rural Colombia.
 
 ### 1.2 Core Concept
+
 Students assume the role of "Guardian Apprentices" who must complete 3 progressive levels to recover 3 "Magic Words" stolen by the "Silence Thief", saving the world of stories.
 
 ### 1.3 Key Metrics
+
 - **Duration**: 30-40 minutes total gameplay
 - **Levels**: 3 progressive levels
-- **Total possible score**: 286 stars
+- **Total possible score**: 300 points (100 per level)
 - **Target users**: 12 students per session
 - **Device support**: Desktop primary, mobile responsive
 
@@ -43,6 +47,7 @@ Students assume the role of "Guardian Apprentices" who must complete 3 progressi
 ## 2. TECH STACK
 
 ### 2.1 Required Stack
+
 ```json
 {
   "framework": "React 18+",
@@ -58,12 +63,14 @@ Students assume the role of "Guardian Apprentices" who must complete 3 progressi
 ```
 
 ### 2.2 No Backend Required
+
 - All game data embedded in frontend
 - State persisted in localStorage only
 - No authentication needed
 - Completely offline-capable after first load
 
 ### 2.3 Optional Libraries
+
 ```json
 {
   "diploma-generation": "html2canvas + jsPDF",
@@ -188,12 +195,7 @@ export interface GameState {
   completedAt: string | null;
 }
 
-export type ScreenType = 
-  | 'intro' 
-  | 'level1' 
-  | 'level2' 
-  | 'level3' 
-  | 'final';
+export type ScreenType = "intro" | "level1" | "level2" | "level3" | "final";
 
 export interface Answer {
   questionId: number;
@@ -269,7 +271,7 @@ export interface Story {
 
 export interface Question {
   id: number;
-  type: 'literal' | 'inferencial' | 'critica';
+  type: "literal" | "inferencial" | "critica";
   stars: number;
   question: string;
   options: QuestionOption[];
@@ -305,7 +307,7 @@ export interface Level2Data {
 
 export interface Challenge {
   id: number;
-  type: 'acertijo' | 'vocabulario' | 'emociones';
+  type: "acertijo" | "vocabulario" | "emociones";
   stars: number;
   question: string;
   options: QuestionOption[];
@@ -359,22 +361,22 @@ export interface RubricCriterion {
 // data/gameData.ts
 
 export const GAME_CONFIG: GameConfig = {
-  minStarsLevel1: 60,
-  minStarsLevel2: 65,
-  minStarsLevel3: 65,
-  totalPossibleStars: 286
+  minStarsLevel1: 65, // 65% de 100 puntos
+  minStarsLevel2: 70, // 70% de 100 puntos
+  minStarsLevel3: 70, // 70% de 100 puntos
+  totalPossibleStars: 300, // 100 puntos por nivel
 };
 
 export const MAGIC_WORDS: MagicWord[] = [
   { id: 1, word: "IMAGINACIÓN", level: 1, unlocked: false },
   { id: 2, word: "CREATIVIDAD", level: 2, unlocked: false },
-  { id: 3, word: "VALENTÍA", level: 3, unlocked: false }
+  { id: 3, word: "VALENTÍA", level: 3, unlocked: false },
 ];
 
 export const GUARDIAN_LEVELS: GuardianLevel[] = [
-  { name: "Guardián Aprendiz", min: 150, max: 200, icon: "✨" },
-  { name: "Guardián Junior", min: 201, max: 250, icon: "⭐" },
-  { name: "Guardián Experto", min: 251, max: 286, icon: "🌟" }
+  { name: "Guardián Aprendiz", min: 150, max: 200, icon: "✨" }, // 50-67% del total
+  { name: "Guardián Junior", min: 201, max: 250, icon: "⭐" }, // 67-83% del total
+  { name: "Guardián Experto", min: 251, max: 300, icon: "🌟" }, // 83-100% del total
 ];
 
 export const INTRO_TEXT = {
@@ -385,7 +387,7 @@ Pero algo terrible ha ocurrido: el malvado "Ladrón de Silencios" ha robado las 
 
 Tú eres un Aprendiz de Guardián. Tu misión es recuperar las tres Palabras Mágicas superando tres desafíos que pondrán a prueba tu comprensión, tu ingenio y tu creatividad.
 
-¿Estás listo para salvar el mundo de las historias?`
+¿Estás listo para salvar el mundo de las historias?`,
 };
 ```
 
@@ -402,8 +404,9 @@ export const LEVEL1_DATA: Level1Data = {
   duration: "10-12 minutos",
   maxStars: 90,
   minStars: 60,
-  intro: "Los Aprendices llegan al Bosque de las Letras Perdidas, un lugar místico donde las palabras flotan entre los árboles como hojas brillantes. Aquí se encuentra escondida la primera Palabra Mágica: IMAGINACIÓN. Para recuperarla, deben demostrar que pueden comprender completamente una historia antigua guardada en el bosque.",
-  
+  intro:
+    "Los Aprendices llegan al Bosque de las Letras Perdidas, un lugar místico donde las palabras flotan entre los árboles como hojas brillantes. Aquí se encuentra escondida la primera Palabra Mágica: IMAGINACIÓN. Para recuperarla, deben demostrar que pueden comprender completamente una historia antigua guardada en el bosque.",
+
   story: {
     title: "El árbol que contaba historias",
     text: `En lo más profundo del bosque de Esmeralda, donde los rayos del sol apenas logran tocar el suelo, vivía un árbol muy especial. No era el más alto ni el más frondoso, pero tenía un don extraordinario: podía recordar todas las historias que alguna vez se habían contado bajo su sombra.
@@ -416,111 +419,148 @@ Durante tres días, Luna buscó los árboles con los poemas. El primero decía: 
 
 Al atardecer del tercer día, Luna llegó a la colina donde estaba el jardín y la gran roca. Siguiendo la dirección que señalaba la roca bajo la luz dorada del atardecer, descubrió una pequeña cabaña oculta entre árboles. Allí estaba su abuela, cuidando a un bebé venado herido.
 
-"Abuela, ¡te encontré!" gritó Luna. La abuela sonrió: "Sabía que lo harías. El árbol de las historias nunca falla. Las palabras y las historias nos guían cuando sabemos escucharlas y comprenderlas."`
+"Abuela, ¡te encontré!" gritó Luna. La abuela sonrió: "Sabía que lo harías. El árbol de las historias nunca falla. Las palabras y las historias nos guían cuando sabemos escucharlas y comprenderlas."`,
   },
-  
+
   questions: [
     {
       id: 1,
-      type: 'literal',
+      type: "literal",
       stars: 10,
       question: "¿Cómo se llamaba la niña protagonista?",
       options: [
         { id: "a", text: "María", correct: false },
         { id: "b", text: "Luna", correct: true },
         { id: "c", text: "Rosa", correct: false },
-        { id: "d", text: "Ana", correct: false }
+        { id: "d", text: "Ana", correct: false },
       ],
       feedback: {
         correct: "¡Correcto! La niña se llamaba Luna.",
-        incorrect: "No es correcto. Lee de nuevo el segundo párrafo del cuento."
-      }
+        incorrect:
+          "No es correcto. Lee de nuevo el segundo párrafo del cuento.",
+      },
     },
     {
       id: 2,
-      type: 'literal',
+      type: "literal",
       stars: 10,
       question: "¿Cuántos poemas encontró Luna en el bosque?",
       options: [
         { id: "a", text: "Dos", correct: false },
         { id: "b", text: "Tres", correct: true },
         { id: "c", text: "Cuatro", correct: false },
-        { id: "d", text: "Cinco", correct: false }
+        { id: "d", text: "Cinco", correct: false },
       ],
       feedback: {
         correct: "¡Excelente! Fueron tres poemas.",
-        incorrect: "Intenta de nuevo. Busca donde dice 'tres árboles del bosque'."
-      }
+        incorrect:
+          "Intenta de nuevo. Busca donde dice 'tres árboles del bosque'.",
+      },
     },
     {
       id: 3,
-      type: 'inferencial',
+      type: "inferencial",
       stars: 15,
-      question: "¿Por qué la abuela dejó pistas en lugar de decir directamente dónde estaba?",
+      question:
+        "¿Por qué la abuela dejó pistas en lugar de decir directamente dónde estaba?",
       options: [
-        { id: "a", text: "Para que Luna aprendiera a resolver problemas", correct: true },
-        { id: "b", text: "Porque no quería que Luna la encontrara", correct: false },
+        {
+          id: "a",
+          text: "Para que Luna aprendiera a resolver problemas",
+          correct: true,
+        },
+        {
+          id: "b",
+          text: "Porque no quería que Luna la encontrara",
+          correct: false,
+        },
         { id: "c", text: "Porque se le olvidó avisar", correct: false },
-        { id: "d", text: "Para complicarle la vida a Luna", correct: false }
+        { id: "d", text: "Para complicarle la vida a Luna", correct: false },
       ],
       feedback: {
-        correct: "¡Muy bien! La abuela quería que Luna desarrollara su capacidad de comprensión.",
-        incorrect: "Piensa en lo que dice la abuela al final sobre 'saber el valor de las palabras'."
-      }
+        correct:
+          "¡Muy bien! La abuela quería que Luna desarrollara su capacidad de comprensión.",
+        incorrect:
+          "Piensa en lo que dice la abuela al final sobre 'saber el valor de las palabras'.",
+      },
     },
     {
       id: 4,
-      type: 'inferencial',
+      type: "inferencial",
       stars: 15,
-      question: "¿Qué cualidad de Luna fue más importante para encontrar a su abuela?",
+      question:
+        "¿Qué cualidad de Luna fue más importante para encontrar a su abuela?",
       options: [
         { id: "a", text: "Su fuerza física", correct: false },
         { id: "b", text: "Su capacidad de comprender y pensar", correct: true },
         { id: "c", text: "Su velocidad corriendo", correct: false },
-        { id: "d", text: "Su buena suerte", correct: false }
+        { id: "d", text: "Su buena suerte", correct: false },
       ],
       feedback: {
-        correct: "¡Perfecto! Luna usó su inteligencia y comprensión para resolver los acertijos.",
-        incorrect: "La historia no trata sobre fuerza o velocidad, sino sobre comprender."
-      }
+        correct:
+          "¡Perfecto! Luna usó su inteligencia y comprensión para resolver los acertijos.",
+        incorrect:
+          "La historia no trata sobre fuerza o velocidad, sino sobre comprender.",
+      },
     },
     {
       id: 5,
-      type: 'critica',
+      type: "critica",
       stars: 20,
-      question: "¿Qué significa la frase 'las palabras nos guían cuando sabemos escucharlas'?",
+      question:
+        "¿Qué significa la frase 'las palabras nos guían cuando sabemos escucharlas'?",
       options: [
         { id: "a", text: "Las palabras hacen ruido", correct: false },
-        { id: "b", text: "Si prestamos atención y comprendemos, las palabras nos ayudan", correct: true },
-        { id: "c", text: "Las palabras siempre dicen la verdad", correct: false },
-        { id: "d", text: "Las palabras son como mapas físicos", correct: false }
+        {
+          id: "b",
+          text: "Si prestamos atención y comprendemos, las palabras nos ayudan",
+          correct: true,
+        },
+        {
+          id: "c",
+          text: "Las palabras siempre dicen la verdad",
+          correct: false,
+        },
+        {
+          id: "d",
+          text: "Las palabras son como mapas físicos",
+          correct: false,
+        },
       ],
       feedback: {
-        correct: "¡Excelente análisis! Comprender el significado de las palabras nos ayuda a encontrar soluciones.",
-        incorrect: "Piensa en cómo Luna usó la comprensión de los poemas para encontrar a su abuela."
-      }
+        correct:
+          "¡Excelente análisis! Comprender el significado de las palabras nos ayuda a encontrar soluciones.",
+        incorrect:
+          "Piensa en cómo Luna usó la comprensión de los poemas para encontrar a su abuela.",
+      },
     },
     {
       id: 6,
-      type: 'critica',
+      type: "critica",
       stars: 20,
       question: "¿Cuál es la enseñanza más importante de esta historia?",
       options: [
         { id: "a", text: "Siempre hay que obedecer", correct: false },
         { id: "b", text: "El bosque es peligroso", correct: false },
-        { id: "c", text: "Comprender bien las palabras puede resolver problemas", correct: true },
-        { id: "d", text: "Las abuelas son despistadas", correct: false }
+        {
+          id: "c",
+          text: "Comprender bien las palabras puede resolver problemas",
+          correct: true,
+        },
+        { id: "d", text: "Las abuelas son despistadas", correct: false },
       ],
       feedback: {
-        correct: "¡Fantástico! La historia nos enseña el poder de la comprensión lectora.",
-        incorrect: "La historia habla sobre el poder de comprender las palabras, no sobre peligros u obediencia."
-      }
-    }
-  ]
+        correct:
+          "¡Fantástico! La historia nos enseña el poder de la comprensión lectora.",
+        incorrect:
+          "La historia habla sobre el poder de comprender las palabras, no sobre peligros u obediencia.",
+      },
+    },
+  ],
 };
 ```
 
-*(Similar structures for level2Data.ts and level3Data.ts - follow same pattern)*
+_(Similar structures for level2Data.ts and level3Data.ts - follow same pattern)_
 
 ---
 
@@ -529,37 +569,38 @@ Al atardecer del tercer día, Luna llegó a la colina donde estaba el jardín y 
 ### 5.1 Core Components
 
 #### 5.1.1 App.tsx
+
 ```typescript
 /**
  * Main App Component
- * 
+ *
  * Responsibilities:
  * - Route management between screens
  * - Global state provider
  * - Layout wrapper
- * 
+ *
  * Props: None
- * 
+ *
  * State: Uses gameStore (Zustand)
  */
 
-import { useGameStore } from './store/gameStore';
-import IntroScreen from './screens/IntroScreen';
-import Level1Screen from './screens/Level1Screen';
-import Level2Screen from './screens/Level2Screen';
-import Level3Screen from './screens/Level3Screen';
-import FinalScreen from './screens/FinalScreen';
+import { useGameStore } from "./store/gameStore";
+import IntroScreen from "./screens/IntroScreen";
+import Level1Screen from "./screens/Level1Screen";
+import Level2Screen from "./screens/Level2Screen";
+import Level3Screen from "./screens/Level3Screen";
+import FinalScreen from "./screens/FinalScreen";
 
 function App() {
-  const currentScreen = useGameStore(state => state.currentScreen);
-  
+  const currentScreen = useGameStore((state) => state.currentScreen);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-indigo-800">
-      {currentScreen === 'intro' && <IntroScreen />}
-      {currentScreen === 'level1' && <Level1Screen />}
-      {currentScreen === 'level2' && <Level2Screen />}
-      {currentScreen === 'level3' && <Level3Screen />}
-      {currentScreen === 'final' && <FinalScreen />}
+      {currentScreen === "intro" && <IntroScreen />}
+      {currentScreen === "level1" && <Level1Screen />}
+      {currentScreen === "level2" && <Level2Screen />}
+      {currentScreen === "level3" && <Level3Screen />}
+      {currentScreen === "final" && <FinalScreen />}
     </div>
   );
 }
@@ -568,23 +609,24 @@ export default App;
 ```
 
 #### 5.1.2 GameHeader Component
+
 ```typescript
 /**
  * GameHeader Component
- * 
+ *
  * Displays:
  * - Level name
  * - Current stars counter
  * - Progress indicator
- * 
+ *
  * Props:
  * - levelName: string
  * - currentStars: number
  * - showProgress?: boolean
- * 
+ *
  * Example:
- * <GameHeader 
- *   levelName="El Bosque de las Letras Perdidas" 
+ * <GameHeader
+ *   levelName="El Bosque de las Letras Perdidas"
  *   currentStars={45}
  *   showProgress={true}
  * />
@@ -592,21 +634,22 @@ export default App;
 ```
 
 #### 5.1.3 Question Component (Level 1)
+
 ```typescript
 /**
  * Question Component
- * 
+ *
  * Displays a single question with multiple choice options
- * 
+ *
  * Props:
  * - question: Question (from types)
  * - onAnswer: (optionId: string, isCorrect: boolean) => void
  * - disabled: boolean
- * 
+ *
  * State:
  * - selectedOption: string | null
  * - showFeedback: boolean
- * 
+ *
  * Behavior:
  * 1. Render question text and type badge
  * 2. Render 4 option buttons
@@ -618,23 +661,24 @@ export default App;
 ```
 
 #### 5.1.4 StoryEditor Component (Level 3)
+
 ```typescript
 /**
  * StoryEditor Component
- * 
+ *
  * Text area for creative writing with:
  * - Title input
  * - Story textarea
  * - Real-time word counter
  * - Word bank display
  * - Auto-save to localStorage
- * 
+ *
  * Props:
  * - wordBank: string[]
  * - minWords: number
  * - maxWords: number
  * - onSubmit: (story: PlayerStory) => void
- * 
+ *
  * Features:
  * - Highlight used words from bank
  * - Show validation errors
@@ -644,17 +688,18 @@ export default App;
 ```
 
 #### 5.1.5 UnlockAnimation Component
+
 ```typescript
 /**
  * UnlockAnimation Component
- * 
+ *
  * Full-screen overlay showing magic word unlock
- * 
+ *
  * Props:
  * - magicWord: string
  * - badge: string
  * - onComplete: () => void
- * 
+ *
  * Behavior:
  * - Fade in with overlay
  * - Animate magic word (scale + glow)
@@ -672,8 +717,8 @@ export default App;
 interface ButtonProps {
   children: React.ReactNode;
   onClick: () => void;
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "primary" | "secondary" | "outline";
+  size?: "sm" | "md" | "lg";
   disabled?: boolean;
   className?: string;
 }
@@ -682,7 +727,7 @@ interface ButtonProps {
 interface CardProps {
   children: React.ReactNode;
   className?: string;
-  elevation?: 'sm' | 'md' | 'lg';
+  elevation?: "sm" | "md" | "lg";
 }
 
 // components/ui/ProgressBar.tsx
@@ -697,7 +742,7 @@ interface ProgressBarProps {
 interface StarCounterProps {
   count: number;
   animated?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 }
 ```
 
@@ -710,8 +755,8 @@ interface StarCounterProps {
 ```typescript
 // store/gameStore.ts
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface GameStore extends GameState {
   // Actions
@@ -722,7 +767,7 @@ interface GameStore extends GameState {
   submitAnswer: (level: number, answer: Answer) => void;
   submitStory: (story: PlayerStory) => void;
   resetGame: () => void;
-  
+
   // Computed
   canAdvanceLevel: (level: number) => boolean;
   getGuardianLevel: () => GuardianLevel;
@@ -732,8 +777,8 @@ export const useGameStore = create<GameStore>()(
   persist(
     (set, get) => ({
       // Initial State
-      playerName: '',
-      currentScreen: 'intro',
+      playerName: "",
+      currentScreen: "intro",
       currentLevel: 0,
       totalStars: 0,
       level1Stars: 0,
@@ -745,56 +790,60 @@ export const useGameStore = create<GameStore>()(
       level2Answers: [],
       level3Story: null,
       completedAt: null,
-      
+
       // Actions
       setPlayerName: (name) => set({ playerName: name }),
-      
+
       setCurrentScreen: (screen) => set({ currentScreen: screen }),
-      
-      addStars: (level, stars) => set((state) => {
-        const updates: Partial<GameState> = {
-          totalStars: state.totalStars + stars
-        };
-        
-        if (level === 1) updates.level1Stars = state.level1Stars + stars;
-        if (level === 2) updates.level2Stars = state.level2Stars + stars;
-        if (level === 3) updates.level3Stars = state.level3Stars + stars;
-        
-        return updates;
-      }),
-      
-      unlockMagicWord: (word) => set((state) => ({
-        unlockedWords: [...state.unlockedWords, word]
-      })),
-      
-      submitAnswer: (level, answer) => set((state) => {
-        if (level === 1) {
-          return { level1Answers: [...state.level1Answers, answer] };
-        }
-        if (level === 2) {
-          return { level2Answers: [...state.level2Answers, answer] };
-        }
-        return state;
-      }),
-      
+
+      addStars: (level, stars) =>
+        set((state) => {
+          const updates: Partial<GameState> = {
+            totalStars: state.totalStars + stars,
+          };
+
+          if (level === 1) updates.level1Stars = state.level1Stars + stars;
+          if (level === 2) updates.level2Stars = state.level2Stars + stars;
+          if (level === 3) updates.level3Stars = state.level3Stars + stars;
+
+          return updates;
+        }),
+
+      unlockMagicWord: (word) =>
+        set((state) => ({
+          unlockedWords: [...state.unlockedWords, word],
+        })),
+
+      submitAnswer: (level, answer) =>
+        set((state) => {
+          if (level === 1) {
+            return { level1Answers: [...state.level1Answers, answer] };
+          }
+          if (level === 2) {
+            return { level2Answers: [...state.level2Answers, answer] };
+          }
+          return state;
+        }),
+
       submitStory: (story) => set({ level3Story: story }),
-      
-      resetGame: () => set({
-        playerName: '',
-        currentScreen: 'intro',
-        currentLevel: 0,
-        totalStars: 0,
-        level1Stars: 0,
-        level2Stars: 0,
-        level3Stars: 0,
-        unlockedWords: [],
-        currentQuestionIndex: 0,
-        level1Answers: [],
-        level2Answers: [],
-        level3Story: null,
-        completedAt: null
-      }),
-      
+
+      resetGame: () =>
+        set({
+          playerName: "",
+          currentScreen: "intro",
+          currentLevel: 0,
+          totalStars: 0,
+          level1Stars: 0,
+          level2Stars: 0,
+          level3Stars: 0,
+          unlockedWords: [],
+          currentQuestionIndex: 0,
+          level1Answers: [],
+          level2Answers: [],
+          level3Story: null,
+          completedAt: null,
+        }),
+
       // Computed
       canAdvanceLevel: (level) => {
         const state = get();
@@ -803,16 +852,18 @@ export const useGameStore = create<GameStore>()(
         if (level === 3) return state.level3Stars >= GAME_CONFIG.minStarsLevel3;
         return false;
       },
-      
+
       getGuardianLevel: () => {
         const totalStars = get().totalStars;
-        return GUARDIAN_LEVELS.find(
-          level => totalStars >= level.min && totalStars <= level.max
-        ) || GUARDIAN_LEVELS[0];
-      }
+        return (
+          GUARDIAN_LEVELS.find(
+            (level) => totalStars >= level.min && totalStars <= level.max
+          ) || GUARDIAN_LEVELS[0]
+        );
+      },
     }),
     {
-      name: 'game-storage', // localStorage key
+      name: "game-storage", // localStorage key
       partialize: (state) => ({
         // Only persist essential data
         playerName: state.playerName,
@@ -820,8 +871,8 @@ export const useGameStore = create<GameStore>()(
         level1Stars: state.level1Stars,
         level2Stars: state.level2Stars,
         level3Stars: state.level3Stars,
-        completedAt: state.completedAt
-      })
+        completedAt: state.completedAt,
+      }),
     }
   )
 );
@@ -983,54 +1034,56 @@ export interface StoryAnalysis {
 }
 
 export function analyzeStory(
-  text: string, 
-  title: string, 
+  text: string,
+  title: string,
   wordBank: string[]
 ): StoryAnalysis {
-  
   // Word count
   const wordCount = text.trim().split(/\s+/).length;
-  
+
   // Detect dialogue (look for — or " patterns)
   const hasDialogue = /—|"|«|»/.test(text);
-  
+
   // Count word bank usage
   const textLower = text.toLowerCase();
-  const wordBankUsed = wordBank.filter(word => 
+  const wordBankUsed = wordBank.filter((word) =>
     textLower.includes(word.toLowerCase())
   );
-  
+
   // Estimate structure (simple heuristic)
   // Check if story has multiple paragraphs, good length
-  const paragraphs = text.split('\n\n').filter(p => p.trim().length > 0);
-  const estimatedStructureScore = 
+  const paragraphs = text.split("\n\n").filter((p) => p.trim().length > 0);
+  const estimatedStructureScore =
     paragraphs.length >= 3 && wordCount >= 120 ? 25 : 20;
-  
+
   return {
     wordCount,
     hasDialogue,
     wordBankUsed,
-    estimatedStructureScore
+    estimatedStructureScore,
   };
 }
 
 export function evaluateStory(analysis: StoryAnalysis): StoryEvaluation {
   // Structure: 25, 20, or 15 stars
   const structure = analysis.estimatedStructureScore;
-  
+
   // Creativity: Fixed at 20 stars (can't auto-evaluate creativity well)
   const creativity = 20;
-  
+
   // Vocabulary: Based on word bank usage
-  const vocabulary = 
-    analysis.wordBankUsed.length >= 3 ? 25 :
-    analysis.wordBankUsed.length >= 2 ? 20 : 15;
-  
+  const vocabulary =
+    analysis.wordBankUsed.length >= 3
+      ? 25
+      : analysis.wordBankUsed.length >= 2
+      ? 20
+      : 15;
+
   // Dialogues: Based on detection
   const dialogues = analysis.hasDialogue ? 25 : 15;
-  
+
   const total = structure + creativity + vocabulary + dialogues;
-  
+
   return { structure, creativity, vocabulary, dialogues, total };
 }
 ```
@@ -1040,17 +1093,16 @@ export function evaluateStory(analysis: StoryAnalysis): StoryEvaluation {
 ```typescript
 // utils/diplomaGenerator.ts
 
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export async function generateDiploma(
   playerName: string,
   totalStars: number,
   guardianLevel: string
 ): Promise<void> {
-  
   // Create diploma HTML element
-  const diplomaEl = document.createElement('div');
+  const diplomaEl = document.createElement("div");
   diplomaEl.innerHTML = `
     <div style="width: 800px; height: 600px; padding: 40px; 
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -1076,27 +1128,27 @@ export async function generateDiploma(
         Nivel Alcanzado: ${guardianLevel}
       </p>
       <p style="font-size: 14px; margin-top: 50px; opacity: 0.8;">
-        ${new Date().toLocaleDateString('es-ES')}
+        ${new Date().toLocaleDateString("es-ES")}
       </p>
     </div>
   `;
-  
+
   document.body.appendChild(diplomaEl);
-  
+
   // Convert to canvas
   const canvas = await html2canvas(diplomaEl);
-  
+
   // Convert to PDF
-  const imgData = canvas.toDataURL('image/png');
+  const imgData = canvas.toDataURL("image/png");
   const pdf = new jsPDF({
-    orientation: 'landscape',
-    unit: 'px',
-    format: [800, 600]
+    orientation: "landscape",
+    unit: "px",
+    format: [800, 600],
   });
-  
-  pdf.addImage(imgData, 'PNG', 0, 0, 800, 600);
+
+  pdf.addImage(imgData, "PNG", 0, 0, 800, 600);
   pdf.save(`diploma-${playerName}.pdf`);
-  
+
   // Cleanup
   document.body.removeChild(diplomaEl);
 }
@@ -1107,27 +1159,27 @@ export async function generateDiploma(
 ```typescript
 // hooks/useSound.ts
 
-import { Howl } from 'howler';
-import { useEffect, useState } from 'react';
+import { Howl } from "howler";
+import { useEffect, useState } from "react";
 
 const sounds = {
-  correct: new Howl({ src: ['/sounds/correct.mp3'], volume: 0.5 }),
-  wrong: new Howl({ src: ['/sounds/wrong.mp3'], volume: 0.5 }),
-  unlock: new Howl({ src: ['/sounds/unlock.mp3'], volume: 0.7 }),
-  victory: new Howl({ src: ['/sounds/victory.mp3'], volume: 0.6 })
+  correct: new Howl({ src: ["/sounds/correct.mp3"], volume: 0.5 }),
+  wrong: new Howl({ src: ["/sounds/wrong.mp3"], volume: 0.5 }),
+  unlock: new Howl({ src: ["/sounds/unlock.mp3"], volume: 0.7 }),
+  victory: new Howl({ src: ["/sounds/victory.mp3"], volume: 0.6 }),
 };
 
 export function useSound() {
   const [enabled, setEnabled] = useState(true);
-  
+
   const play = (soundName: keyof typeof sounds) => {
     if (enabled && sounds[soundName]) {
       sounds[soundName].play();
     }
   };
-  
-  const toggle = () => setEnabled(prev => !prev);
-  
+
+  const toggle = () => setEnabled((prev) => !prev);
+
   return { play, enabled, toggle };
 }
 ```
@@ -1142,43 +1194,43 @@ export function useSound() {
 // tailwind.config.js
 
 module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
         primary: {
-          50: '#f5f3ff',
-          500: '#6C5CE7',
-          600: '#5F4FD9',
-          700: '#5243C3'
+          50: "#f5f3ff",
+          500: "#6C5CE7",
+          600: "#5F4FD9",
+          700: "#5243C3",
         },
         gold: {
-          500: '#FDCB6E',
-          600: '#F1B84E'
-        }
+          500: "#FDCB6E",
+          600: "#F1B84E",
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif']
+        sans: ["Inter", "system-ui", "sans-serif"],
       },
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-in',
-        'slide-up': 'slideUp 0.5s ease-out',
-        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'bounce-slow': 'bounce 2s infinite'
+        "fade-in": "fadeIn 0.5s ease-in",
+        "slide-up": "slideUp 0.5s ease-out",
+        "pulse-slow": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "bounce-slow": "bounce 2s infinite",
       },
       keyframes: {
         fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' }
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
         slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' }
-        }
-      }
-    }
+          "0%": { transform: "translateY(20px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };
 ```
 
@@ -1233,6 +1285,7 @@ Use Framer Motion for:
 ## 10. IMPLEMENTATION PHASES
 
 ### Phase 1: Setup & Foundation (2-3 hours)
+
 ```
 ✓ Initialize Vite + React + TypeScript project
 ✓ Install dependencies (Zustand, Tailwind, Framer Motion, Lucide)
@@ -1245,6 +1298,7 @@ Use Framer Motion for:
 ```
 
 ### Phase 2: State Management & Routing (1-2 hours)
+
 ```
 ✓ Implement Zustand store with persist
 ✓ Create screen routing logic in App.tsx
@@ -1253,6 +1307,7 @@ Use Framer Motion for:
 ```
 
 ### Phase 3: Intro Screen (1 hour)
+
 ```
 ✓ Create IntroScreen component
 ✓ Display narrative text
@@ -1262,6 +1317,7 @@ Use Framer Motion for:
 ```
 
 ### Phase 4: Level 1 - Reading Comprehension (3-4 hours)
+
 ```
 ✓ Create Level1Screen component
 ✓ Create StoryDisplay component
@@ -1276,6 +1332,7 @@ Use Framer Motion for:
 ```
 
 ### Phase 5: Level 2 - Challenges (2-3 hours)
+
 ```
 ✓ Create Level2Screen component
 ✓ Create ChallengeCard component
@@ -1288,6 +1345,7 @@ Use Framer Motion for:
 ```
 
 ### Phase 6: Level 3 - Writing (4-5 hours)
+
 ```
 ✓ Create Level3Screen component
 ✓ Create InspirationSelector component
@@ -1303,6 +1361,7 @@ Use Framer Motion for:
 ```
 
 ### Phase 7: Final Screen (2 hours)
+
 ```
 ✓ Create FinalScreen component
 ✓ Display total stars
@@ -1314,6 +1373,7 @@ Use Framer Motion for:
 ```
 
 ### Phase 8: Shared Components (2-3 hours)
+
 ```
 ✓ Create GameHeader component
 ✓ Create UnlockAnimation component
@@ -1324,6 +1384,7 @@ Use Framer Motion for:
 ```
 
 ### Phase 9: Polish & Optimization (2-3 hours)
+
 ```
 ✓ Add loading states
 ✓ Add error boundaries
@@ -1336,6 +1397,7 @@ Use Framer Motion for:
 ```
 
 ### Phase 10: Testing & Deployment (1-2 hours)
+
 ```
 ✓ Test full user flow
 ✓ Test on mobile devices
@@ -1551,27 +1613,32 @@ When implementing this project, follow these steps:
 1. **Read this entire specification** before starting
 
 2. **Setup Phase:**
+
    - Create Vite React TypeScript project
    - Install all dependencies listed in section 2
    - Setup folder structure from section 3
 
 3. **Foundation Phase:**
+
    - Implement all TypeScript types from section 4.1
    - Create all data files from sections 4.2 and 4.3
    - Implement Zustand store from section 6.1
 
 4. **Component Development:**
+
    - Start with smallest components (UI)
    - Then build screen components
    - Follow component specifications from section 5
    - Reference user flows from section 7
 
 5. **Feature Implementation:**
+
    - Implement features from section 8
    - Follow UI requirements from section 9
    - Test against criteria from section 11
 
 6. **Best Practices:**
+
    - Write clean, typed TypeScript
    - Use functional components with hooks
    - Follow React best practices
@@ -1581,6 +1648,7 @@ When implementing this project, follow these steps:
    - Add comments for complex logic
 
 7. **Testing:**
+
    - Test each component as you build it
    - Test state persistence
    - Test responsive design
@@ -1592,6 +1660,7 @@ When implementing this project, follow these steps:
    - Deploy to Netlify or Vercel
 
 **Questions to ask developer during implementation:**
+
 - Preference on sound effects (include or skip?)
 - Image assets source (provide or use placeholders?)
 - Diploma design preferences

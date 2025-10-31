@@ -1,10 +1,10 @@
 import type { GameConfig, MagicWord, GuardianLevel } from "../types";
 
 export const GAME_CONFIG: GameConfig = {
-  minStarsLevel1: 60,
-  minStarsLevel2: 65,
-  minStarsLevel3: 65,
-  totalPossibleStars: 286,
+  minStarsLevel1: 65, // 65% de 100 puntos
+  minStarsLevel2: 70, // 70% de 100 puntos
+  minStarsLevel3: 70, // 70% de 100 puntos
+  totalPossibleStars: 300, // 100 puntos por nivel
 };
 
 export const MAGIC_WORDS: MagicWord[] = [
@@ -14,9 +14,9 @@ export const MAGIC_WORDS: MagicWord[] = [
 ];
 
 export const GUARDIAN_LEVELS: GuardianLevel[] = [
-  { name: "Guardián Aprendiz", min: 150, max: 200, icon: "✨" },
-  { name: "Guardián Junior", min: 201, max: 250, icon: "⭐" },
-  { name: "Guardián Experto", min: 251, max: 286, icon: "🌟" },
+  { name: "Guardián Aprendiz", min: 150, max: 200, icon: "✨" }, // 50-67% del total
+  { name: "Guardián Junior", min: 201, max: 250, icon: "⭐" }, // 67-83% del total
+  { name: "Guardián Experto", min: 251, max: 300, icon: "🌟" }, // 83-100% del total
 ];
 
 export const INTRO_TEXT = {

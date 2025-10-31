@@ -221,7 +221,7 @@ src/
 │  • Nivel 2: [X] estrellas - Maestría del Vocabulario  │
 │  • Nivel 3: [X] estrellas - Escritura Creativa        │
 │                                                         │
-│  Total: [XXX] estrellas de 286 posibles                │
+│  Total: [XXX] puntos de 300 posibles                   │
 │                                                         │
 │  "Tu imaginación es tu superpoder más grande"          │
 │                                                         │

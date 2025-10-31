@@ -6,8 +6,8 @@ export const LEVEL1_DATA: Level1Data = {
   magicWord: "IMAGINACIÓN",
   badge: "Descifrador de Historias",
   duration: "10-12 minutos",
-  maxStars: 90,
-  minStars: 60,
+  maxStars: 100,
+  minStars: 65,
   intro:
     "Los Aprendices llegan al Bosque de las Letras Perdidas, un lugar místico donde las palabras flotan entre los árboles como hojas brillantes. Aquí se encuentra escondida la primera Palabra Mágica: IMAGINACIÓN. Para recuperarla, deben demostrar que pueden comprender completamente una historia antigua guardada en el bosque.",
 
@@ -30,7 +30,7 @@ Al atardecer del tercer día, Luna llegó a la colina donde estaba el jardín y 
     {
       id: 1,
       type: "literal",
-      stars: 10,
+      stars: 15,
       question: "¿Cómo se llamaba la niña protagonista?",
       options: [
         { id: "a", text: "María", correct: false },
@@ -47,7 +47,7 @@ Al atardecer del tercer día, Luna llegó a la colina donde estaba el jardín y 
     {
       id: 2,
       type: "literal",
-      stars: 10,
+      stars: 15,
       question: "¿Cuántos poemas encontró Luna en el bosque?",
       options: [
         { id: "a", text: "Dos", correct: false },
@@ -64,7 +64,7 @@ Al atardecer del tercer día, Luna llegó a la colina donde estaba el jardín y 
     {
       id: 3,
       type: "inferencial",
-      stars: 15,
+      stars: 17,
       question:
         "¿Por qué la abuela dejó pistas en lugar de decir directamente dónde estaba?",
       options: [
@@ -91,7 +91,7 @@ Al atardecer del tercer día, Luna llegó a la colina donde estaba el jardín y 
     {
       id: 4,
       type: "inferencial",
-      stars: 15,
+      stars: 18,
       question:
         "¿Qué cualidad de Luna fue más importante para encontrar a su abuela?",
       options: [
@@ -110,7 +110,7 @@ Al atardecer del tercer día, Luna llegó a la colina donde estaba el jardín y 
     {
       id: 5,
       type: "critica",
-      stars: 20,
+      stars: 17,
       question:
         "¿Qué significa la frase 'las palabras nos guían cuando sabemos escucharlas'?",
       options: [
@@ -141,7 +141,7 @@ Al atardecer del tercer día, Luna llegó a la colina donde estaba el jardín y 
     {
       id: 6,
       type: "critica",
-      stars: 20,
+      stars: 18,
       question: "¿Cuál es la enseñanza más importante de esta historia?",
       options: [
         { id: "a", text: "Siempre hay que obedecer", correct: false },

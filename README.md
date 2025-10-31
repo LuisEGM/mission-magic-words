@@ -8,9 +8,9 @@ Los estudiantes asumen el rol de "Aprendices de Guardianes" que deben completar 
 
 ### Niveles
 
-1. **El Bosque de las Letras Perdidas** - Comprensión lectora (6 preguntas, 90 estrellas máx)
-2. **El Puente de los Enigmas** - Acertijos y vocabulario (8 desafíos, 96 estrellas máx)
-3. **El Castillo de las Historias Infinitas** - Escritura creativa (100 estrellas máx)
+1. **El Bosque de las Letras Perdidas** - Comprensión lectora (6 preguntas, 100 puntos máx)
+2. **El Puente de los Enigmas** - Acertijos y vocabulario (8 desafíos, 100 puntos máx)
+3. **El Castillo de las Historias Infinitas** - Escritura creativa (100 puntos máx)
 
 ### Palabras Mágicas
 
@@ -58,16 +58,16 @@ El juego estará disponible en [http://localhost:5173/](http://localhost:5173/)
 
 ## 🎨 Sistema de Puntuación
 
-- **Total posible:** 286 estrellas
-- **Nivel 1:** Mínimo 60 estrellas para avanzar
-- **Nivel 2:** Mínimo 65 estrellas para avanzar
-- **Nivel 3:** Mínimo 65 estrellas para avanzar
+- **Total posible:** 300 puntos (100 por nivel)
+- **Nivel 1:** Mínimo 65 puntos para avanzar (65%)
+- **Nivel 2:** Mínimo 70 puntos para avanzar (70%)
+- **Nivel 3:** Mínimo 70 puntos para avanzar (70%)
 
 ### Niveles de Guardián
 
-- 🌟 **Guardián Experto:** 251-286 estrellas
-- ⭐ **Guardián Junior:** 201-250 estrellas
-- ✨ **Guardián Aprendiz:** 150-200 estrellas
+- 🌟 **Guardián Experto:** 251-300 puntos (83-100%)
+- ⭐ **Guardián Junior:** 201-250 puntos (67-83%)
+- ✨ **Guardián Aprendiz:** 150-200 puntos (50-67%)
 
 ## 📁 Estructura del Proyecto
 
@@ -130,6 +130,7 @@ vercel --prod
 ### Cambiar contenido del juego
 
 Edita los archivos en `src/data/`:
+
 - `gameData.ts` - Configuración general
 - `level1Data.ts` - Historia y preguntas del nivel 1
 - `level2Data.ts` - Desafíos del nivel 2
@@ -138,12 +139,13 @@ Edita los archivos en `src/data/`:
 ### Ajustar requisitos
 
 En `src/data/gameData.ts`:
+
 ```typescript
 export const GAME_CONFIG: GameConfig = {
-  minStarsLevel1: 60,  // Cambiar aquí
-  minStarsLevel2: 65,  // Cambiar aquí
-  minStarsLevel3: 65,  // Cambiar aquí
-  totalPossibleStars: 286
+  minStarsLevel1: 65, // 65% de 100 puntos
+  minStarsLevel2: 70, // 70% de 100 puntos
+  minStarsLevel3: 70, // 70% de 100 puntos
+  totalPossibleStars: 300, // 100 puntos por nivel
 };
 ```
 
@@ -157,14 +159,17 @@ export const GAME_CONFIG: GameConfig = {
 ## 🐛 Troubleshooting
 
 ### El juego no guarda el progreso
+
 - Verifica que localStorage esté habilitado en el navegador
 - Revisa que no estés en modo incógnito
 
 ### Las imágenes no cargan
+
 - Las URLs de inspiración usan Unsplash
 - Asegúrate de tener conexión a internet para la primera carga
 
 ### Error al generar diploma
+
 - Verifica que html2canvas y jsPDF estén instalados
 - Algunos bloqueadores de anuncios pueden interferir
 
