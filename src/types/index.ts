@@ -18,12 +18,7 @@ export interface GameState {
   completedAt: string | null;
 }
 
-export type ScreenType =
-  | 'intro'
-  | 'level1'
-  | 'level2'
-  | 'level3'
-  | 'final';
+export type ScreenType = "intro" | "level1" | "level2" | "level3" | "final";
 
 export interface Answer {
   questionId: number;
@@ -99,7 +94,7 @@ export interface Story {
 
 export interface Question {
   id: number;
-  type: 'literal' | 'inferencial' | 'critica';
+  type: "literal" | "inferencial" | "critica";
   stars: number;
   question: string;
   options: QuestionOption[];
@@ -135,7 +130,7 @@ export interface Level2Data {
 
 export interface Challenge {
   id: number;
-  type: 'acertijo' | 'vocabulario' | 'emociones';
+  type: "acertijo" | "vocabulario" | "emociones";
   stars: number;
   question: string;
   options: QuestionOption[];
@@ -180,4 +175,53 @@ export interface RubricCriterion {
   excellent: { stars: number; description: string };
   good: { stars: number; description: string };
   basic: { stars: number; description: string };
+}
+
+// ============================================
+// AI VALIDATION (CLAUDE)
+// ============================================
+
+export interface AIStoryEvaluation {
+  structure: {
+    score: number; // 15, 20, or 25
+    feedback: string;
+    hasBeginning: boolean;
+    hasDevelopment: boolean;
+    hasEnding: boolean;
+  };
+  creativity: {
+    score: number; // 15, 20, or 25
+    feedback: string;
+    isOriginal: boolean;
+    hasSurprises: boolean;
+  };
+  vocabulary: {
+    score: number; // 15, 20, or 25
+    feedback: string;
+    wordBankUsed: string[];
+    wordBankCount: number;
+  };
+  dialogues: {
+    score: number; // 15, 20, or 25
+    feedback: string;
+    hasDialogues: boolean;
+    dialogueQuality: "excellent" | "good" | "basic" | "none";
+  };
+  total: number;
+  overallFeedback: string;
+  strengths: string[];
+  improvements: string[];
+}
+
+export interface AIValidationRequest {
+  title: string;
+  text: string;
+  wordBank: string[];
+  requirements: WritingRequirements;
+}
+
+export interface AIValidationResponse {
+  success: boolean;
+  evaluation?: AIStoryEvaluation;
+  error?: string;
 }

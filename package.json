@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.23.24",
     "howler": "^2.2.4",

@@ -5,6 +5,7 @@ import { GameHeader } from "../components/layout/GameHeader";
 import { InspirationSelector } from "../components/level3/InspirationSelector";
 import { StoryEditor } from "../components/level3/StoryEditor";
 import { SelfReviewChecklist } from "../components/level3/SelfReviewChecklist";
+import { AIFeedback } from "../components/level3/AIFeedback";
 import { Button } from "../components/ui/Button";
 import { UnlockAnimation } from "../components/shared/UnlockAnimation";
 import { CharacterDialogue } from "../components/shared/CharacterDialogue";
@@ -13,9 +14,18 @@ import { useGameStore } from "../store/gameStore";
 import { LEVEL3_DATA } from "../data/level3Data";
 import { MAGIC_WORDS } from "../data/gameData";
 import { analyzeStory, evaluateStory } from "../utils/textAnalyzer";
+import { claudeService } from "../services/claudeService";
 import { audioService } from "../services/audioService";
+import { AlertCircle } from "lucide-react";
+import type { AIStoryEvaluation } from "../types";
 
-type Level3Stage = "intro" | "select-image" | "write" | "review" | "complete";
+type Level3Stage =
+  | "intro"
+  | "select-image"
+  | "write"
+  | "review"
+  | "ai-evaluation"
+  | "complete";
 
 export const Level3Screen: React.FC = () => {
   const [stage, setStage] = useState<Level3Stage>("intro");
@@ -23,6 +33,11 @@ export const Level3Screen: React.FC = () => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [showUnlock, setShowUnlock] = useState(false);
+  const [isEvaluating, setIsEvaluating] = useState(false);
+  const [aiEvaluation, setAiEvaluation] = useState<AIStoryEvaluation | null>(
+    null
+  );
+  const [evaluationError, setEvaluationError] = useState<string | null>(null);
 
   const {
     level3Stars,
@@ -66,20 +81,80 @@ export const Level3Screen: React.FC = () => {
     setStage("review");
   };
 
+  const handleEvaluateWithAI = async () => {
+    setIsEvaluating(true);
+    setEvaluationError(null);
+    audioService.play("click");
+
+    try {
+      const response = await claudeService.validateStory({
+        title,
+        text,
+        wordBank: LEVEL3_DATA.wordBank,
+        requirements: LEVEL3_DATA.requirements,
+      });
+
+      if (response.success && response.evaluation) {
+        setAiEvaluation(response.evaluation);
+        setStage("ai-evaluation");
+        audioService.play("correct");
+      } else {
+        setEvaluationError(
+          response.error || "Error al evaluar la historia con IA"
+        );
+        audioService.play("wrong");
+      }
+    } catch (error) {
+      console.error("Error al evaluar con IA:", error);
+      setEvaluationError(
+        "Error inesperado al conectar con el servicio de evaluación"
+      );
+      audioService.play("wrong");
+    } finally {
+      setIsEvaluating(false);
+    }
+  };
+
   const handleSubmit = () => {
-    const analysis = analyzeStory(text, title, LEVEL3_DATA.wordBank);
-    const evaluation = evaluateStory(analysis);
+    // Si hay evaluación de IA, usar esa
+    if (aiEvaluation) {
+      const evaluation = {
+        structure: aiEvaluation.structure.score,
+        creativity: aiEvaluation.creativity.score,
+        vocabulary: aiEvaluation.vocabulary.score,
+        dialogues: aiEvaluation.dialogues.score,
+        total: aiEvaluation.total,
+      };
 
-    addStars(3, evaluation.total);
+      addStars(3, evaluation.total);
 
-    submitStory({
-      title,
-      text,
-      wordCount: analysis.wordCount,
-      selectedImage: selectedImage!,
-      evaluationScore: evaluation,
-      submittedAt: new Date().toISOString(),
-    });
+      submitStory({
+        title,
+        text,
+        wordCount: text
+          .trim()
+          .split(/\s+/)
+          .filter((w) => w.length > 0).length,
+        selectedImage: selectedImage!,
+        evaluationScore: evaluation,
+        submittedAt: new Date().toISOString(),
+      });
+    } else {
+      // Fallback: usar evaluación básica
+      const analysis = analyzeStory(text, title, LEVEL3_DATA.wordBank);
+      const evaluation = evaluateStory(analysis);
+
+      addStars(3, evaluation.total);
+
+      submitStory({
+        title,
+        text,
+        wordCount: analysis.wordCount,
+        selectedImage: selectedImage!,
+        evaluationScore: evaluation,
+        submittedAt: new Date().toISOString(),
+      });
+    }
 
     setStage("complete");
 
@@ -231,15 +306,101 @@ export const Level3Screen: React.FC = () => {
   }
 
   if (stage === "review") {
+    const isAIAvailable = claudeService.isAvailable();
+
     return (
       <ScreenContainer>
         <GameHeader levelName={LEVEL3_DATA.name} currentStars={level3Stars} />
-        <div className="mt-8">
+        <div className="mt-8 space-y-6">
           <SelfReviewChecklist
             checklist={LEVEL3_DATA.checklist}
             onSubmit={handleSubmit}
             onGoBack={() => setStage("write")}
           />
+
+          {/* Opción de evaluación con IA */}
+          <Card className="p-6 bg-linear-to-r from-purple-50 to-blue-50 max-w-4xl mx-auto">
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <div className="text-3xl">✨</div>
+                <h3 className="text-2xl font-bold text-purple-700">
+                  Evaluación con Inteligencia Artificial
+                </h3>
+              </div>
+
+              {isAIAvailable ? (
+                <div className="flex flex-col justify-center">
+                  <p className="text-gray-700 mb-4">
+                    ¿Quieres que un profesor virtual revise tu historia y te dé
+                    feedback detallado?
+                  </p>
+                  {evaluationError && (
+                    <div className="mb-4 p-3 bg-red-100 border border-red-300 rounded-lg flex items-start gap-2">
+                      <AlertCircle
+                        className="text-red-600 shrink-0 mt-0.5"
+                        size={20}
+                      />
+                      <p className="text-sm text-red-700">{evaluationError}</p>
+                    </div>
+                  )}
+                  <Button
+                    onClick={handleEvaluateWithAI}
+                    disabled={isEvaluating}
+                    size="lg"
+                    className="bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 flex gap-2 items-center justify-center"
+                  >
+                    {isEvaluating ? (
+                      <>
+                        {/* <Loader2 className="animate-spin mr-2" size={20} /> */}
+                        <div className="text-4xl">🧙‍♂️</div>
+                        Evaluando tu historia...
+                      </>
+                    ) : (
+                      <>
+                        {/* <Sparkles className="mr-2" size={20} /> */}
+                        <div className="text-4xl">🧙‍♂️</div>
+                        Evaluar con IA
+                      </>
+                    )}
+                  </Button>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Esto puede tomar 10-20 segundos
+                  </p>
+                </div>
+              ) : (
+                <div className="p-4 bg-yellow-100 border border-yellow-300 rounded-lg">
+                  <p className="text-sm text-yellow-800">
+                    La evaluación con IA no está disponible. Por favor, contacta
+                    al desarrollador. Error: API Key missing
+                  </p>
+                </div>
+              )}
+            </div>
+          </Card>
+        </div>
+      </ScreenContainer>
+    );
+  }
+
+  if (stage === "ai-evaluation") {
+    return (
+      <ScreenContainer>
+        <GameHeader levelName={LEVEL3_DATA.name} currentStars={level3Stars} />
+        <div className="mt-8 space-y-6">
+          {aiEvaluation && <AIFeedback evaluation={aiEvaluation} />}
+
+          <div className="flex justify-center gap-4">
+            <Button
+              onClick={() => setStage("write")}
+              variant="outline"
+              size="lg"
+            >
+              Mejorar Historia
+            </Button>
+            <Button onClick={handleSubmit} size="lg">
+              Continuar con {aiEvaluation?.total || 0} Estrellas
+            </Button>
+          </div>
         </div>
       </ScreenContainer>
     );
