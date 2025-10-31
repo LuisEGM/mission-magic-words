@@ -5,11 +5,20 @@ import { Level2Screen } from "./screens/Level2Screen";
 import { Level3Screen } from "./screens/Level3Screen";
 import { FinalScreen } from "./screens/FinalScreen";
 import { Footer } from "./components/layout/Footer";
+import { MaintenancePage } from "./components/MaintenancePage";
 // import { LightRays as Aurora } from "./components/ui/LightRays";
 // import { DarkVeil } from "./components/ui/DarkVeil";
 
 function App() {
   const currentScreen = useGameStore((state) => state.currentScreen);
+
+  // Verificar si la aplicación está bloqueada
+  const isAppLocked = import.meta.env.VITE_APP_LOCKED === "true";
+
+  // Si la app está bloqueada, mostrar página de mantenimiento
+  if (isAppLocked) {
+    return <MaintenancePage />;
+  }
 
   return (
     <div className="relative min-h-screen flex flex-col">
