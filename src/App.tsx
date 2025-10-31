@@ -6,6 +6,7 @@ import { Level3Screen } from "./screens/Level3Screen";
 import { FinalScreen } from "./screens/FinalScreen";
 import { Footer } from "./components/layout/Footer";
 import { MaintenancePage } from "./components/MaintenancePage";
+import { Analytics } from "@vercel/analytics/react";
 // import { LightRays as Aurora } from "./components/ui/LightRays";
 // import { DarkVeil } from "./components/ui/DarkVeil";
 
@@ -49,6 +50,7 @@ function App() {
         {currentScreen === "final" && <FinalScreen />}
       </div>
       <Footer />
+      <Analytics />
     </div>
   );
 }
