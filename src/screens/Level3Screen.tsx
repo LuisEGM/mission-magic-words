@@ -196,7 +196,7 @@ export const Level3Screen: React.FC = () => {
         setTimeout(() => {
           setShowUnlock(true);
           audioService.play("unlock");
-        }, 1200);
+        }, 1000);
       }
     } else {
       // Level completed but insufficient stars
@@ -457,6 +457,7 @@ export const Level3Screen: React.FC = () => {
               onClick={() => setStage("write")}
               variant="outline"
               size="lg"
+              className="border-white text-white hover:bg-transparent"
             >
               Mejorar Historia
             </Button>

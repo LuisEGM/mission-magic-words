@@ -60,10 +60,10 @@ export const ProgrammaticFeedback: React.FC<ProgrammaticFeedbackProps> = ({
         >
           <Star className="text-white" size={48} fill="white" />
         </motion.div>
-        <h2 className="text-4xl font-bold text-gray-800 mb-2">
+        <h2 className="text-5xl font-bold text-gray-800 mb-2">
           {evaluation.total} Estrellas
         </h2>
-        <p className="text-lg text-gray-600">
+        <p className="text-xl text-gray-600">
           {getOverallMessage(evaluation.total)}
         </p>
       </Card>
@@ -82,23 +82,25 @@ export const ProgrammaticFeedback: React.FC<ProgrammaticFeedbackProps> = ({
                 <div
                   className={`p-3 rounded-lg bg-white ${criteria.color} flex-shrink-0`}
                 >
-                  <criteria.icon size={24} />
+                  <criteria.icon size={28} />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-bold text-gray-800">{criteria.name}</h3>
+                    <h3 className="text-lg font-bold text-gray-800">
+                      {criteria.name}
+                    </h3>
                     <div className="flex items-center gap-1">
                       <Star
                         className="text-yellow-500"
-                        size={16}
+                        size={20}
                         fill="currentColor"
                       />
-                      <span className="font-bold text-gray-800">
+                      <span className="text-xl font-bold text-gray-800">
                         {criteria.score}
                       </span>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600">{criteria.feedback}</p>
+                  <p className="text-base text-gray-600">{criteria.feedback}</p>
                 </div>
               </div>
             </Card>
@@ -108,40 +110,40 @@ export const ProgrammaticFeedback: React.FC<ProgrammaticFeedbackProps> = ({
 
       {/* Resumen de Análisis */}
       <Card className="p-6 bg-blue-50">
-        <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-          <FileText size={20} className="text-blue-600" />
+        <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <FileText size={24} className="text-blue-600" />
           Análisis de tu Historia
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
           <div>
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-3xl font-bold text-blue-600">
               {analysis.wordCount}
             </div>
-            <div className="text-sm text-gray-600">Palabras</div>
+            <div className="text-base text-gray-600">Palabras</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-3xl font-bold text-green-600">
               {analysis.wordBankUsed.length}
             </div>
-            <div className="text-sm text-gray-600">Palabras del Banco</div>
+            <div className="text-base text-gray-600">Palabras del Banco</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-purple-600">
+            <div className="text-3xl font-bold text-purple-600">
               {analysis.sentences}
             </div>
-            <div className="text-sm text-gray-600">Oraciones</div>
+            <div className="text-base text-gray-600">Oraciones</div>
           </div>
         </div>
         {analysis.wordBankUsed.length > 0 && (
           <div className="mt-4 pt-4 border-t border-blue-200">
-            <p className="text-sm text-gray-600 mb-2">
+            <p className="text-base text-gray-700 mb-2">
               <strong>Palabras del banco usadas:</strong>
             </p>
             <div className="flex flex-wrap gap-2">
               {analysis.wordBankUsed.map((word) => (
                 <span
                   key={word}
-                  className="px-3 py-1 bg-white text-green-700 rounded-full text-sm font-medium"
+                  className="px-3 py-1.5 bg-white text-green-700 rounded-full text-base font-medium"
                 >
                   ✓ {word}
                 </span>
@@ -153,7 +155,7 @@ export const ProgrammaticFeedback: React.FC<ProgrammaticFeedbackProps> = ({
 
       {/* Nota para el Profesor */}
       <Card className="p-6 bg-purple-50 border-2 border-purple-200">
-        <p className="text-sm text-gray-700 text-center">
+        <p className="text-base text-gray-700 text-center leading-relaxed">
           <strong>📝 Nota:</strong> Esta es una evaluación automática basada en
           criterios medibles. Tu profesor revisará tu historia y podrá darte
           feedback más personalizado.
