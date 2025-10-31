@@ -4,6 +4,7 @@ import { Level1Screen } from "./screens/Level1Screen";
 import { Level2Screen } from "./screens/Level2Screen";
 import { Level3Screen } from "./screens/Level3Screen";
 import { FinalScreen } from "./screens/FinalScreen";
+import { Footer } from "./components/layout/Footer";
 // import { LightRays as Aurora } from "./components/ui/LightRays";
 // import { DarkVeil } from "./components/ui/DarkVeil";
 
@@ -11,7 +12,7 @@ function App() {
   const currentScreen = useGameStore((state) => state.currentScreen);
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen flex flex-col">
       {/* <LightRays
         raysOrigin="top-left"
         raysColor="#ffffff"
@@ -31,13 +32,14 @@ function App() {
         amplitude={1.0}
         speed={0.5}
       /> */}
-      <div className=" absolute inset-0">
+      <div className="flex-1 absolute inset-0">
         {currentScreen === "intro" && <IntroScreen />}
         {currentScreen === "level1" && <Level1Screen />}
         {currentScreen === "level2" && <Level2Screen />}
         {currentScreen === "level3" && <Level3Screen />}
         {currentScreen === "final" && <FinalScreen />}
       </div>
+      <Footer />
     </div>
   );
 }
