@@ -34,6 +34,7 @@ class AudioManager {
     this.loadFromLocalStorage();
     this.initializeSounds();
     this.setupGlobalMusicTrigger();
+    this.setupVisibilityListener();
   }
 
   /**
@@ -143,6 +144,41 @@ class AudioManager {
     document.addEventListener("click", startMusic, { once: true });
     // Also listen for first keypress
     document.addEventListener("keydown", startMusic, { once: true });
+  }
+
+  /**
+   * Setup visibility change listener to pause/resume music when tab is hidden/visible
+   */
+  private setupVisibilityListener() {
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        // Tab is hidden - pause background music
+        this.pauseMusic();
+      } else {
+        // Tab is visible again - resume background music if it was playing
+        this.resumeMusic();
+      }
+    });
+  }
+
+  /**
+   * Pause background music
+   */
+  private pauseMusic() {
+    const music = this.sounds.get("backgroundMusic");
+    if (music && music.playing()) {
+      music.pause();
+    }
+  }
+
+  /**
+   * Resume background music
+   */
+  private resumeMusic() {
+    const music = this.sounds.get("backgroundMusic");
+    if (music && this.enabled && this.musicStarted) {
+      music.play();
+    }
   }
 
   /**

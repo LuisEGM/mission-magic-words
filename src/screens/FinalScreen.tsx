@@ -126,11 +126,7 @@ export const FinalScreen: React.FC = () => {
           >
             <Card className="p-6">
               <div className="flex items-center gap-3 mb-4">
-                <Star
-                  className="text-yellow-500"
-                  size={32}
-                  fill="currentColor"
-                />
+                <div className="text-3xl">⭐</div>
                 <h2 className="text-2xl font-bold text-gray-800">
                   Resumen de Estrellas
                 </h2>
@@ -187,7 +183,7 @@ export const FinalScreen: React.FC = () => {
           >
             <Card className="p-6">
               <div className="flex items-center gap-3 mb-4">
-                <Award className="text-purple-600" size={32} />
+                <div className="text-3xl">🎖️</div>
                 <h2 className="text-2xl font-bold text-gray-800">Tus Logros</h2>
               </div>
 

@@ -4,7 +4,7 @@ import { Level1Screen } from "./screens/Level1Screen";
 import { Level2Screen } from "./screens/Level2Screen";
 import { Level3Screen } from "./screens/Level3Screen";
 import { FinalScreen } from "./screens/FinalScreen";
-// import { LightRays } from "./components/ui/LightRays";
+// import { LightRays as Aurora } from "./components/ui/LightRays";
 // import { DarkVeil } from "./components/ui/DarkVeil";
 
 function App() {
@@ -25,6 +25,12 @@ function App() {
         className="bg-transparent"
       /> */}
       {/* <DarkVeil /> */}
+      {/* <Aurora
+        colorStops={["#3A29FF", "#FF94B4", "#FF3232"]}
+        blend={0.5}
+        amplitude={1.0}
+        speed={0.5}
+      /> */}
       <div className=" absolute inset-0">
         {currentScreen === "intro" && <IntroScreen />}
         {currentScreen === "level1" && <Level1Screen />}

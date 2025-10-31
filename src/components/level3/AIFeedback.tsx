@@ -70,7 +70,7 @@ export const AIFeedback: React.FC<AIFeedbackProps> = ({ evaluation }) => {
           <Sparkles size={24} />
           Comentario General
         </h4>
-        <p className="text-gray-700 leading-relaxed">
+        <p className="text-base text-gray-700 leading-relaxed">
           {evaluation.overallFeedback}
         </p>
       </Card>
@@ -85,27 +85,27 @@ export const AIFeedback: React.FC<AIFeedbackProps> = ({ evaluation }) => {
           const score = criterion.score;
 
           return (
-            <Card key={key} className="p-4">
-              <div className="flex items-start gap-3">
+            <Card key={key} className="p-6">
+              <div className="flex items-start gap-4">
                 <div
-                  className={`p-2 rounded-lg ${getScoreBg(
+                  className={`p-3 rounded-lg ${getScoreBg(
                     score
                   )} ${getScoreColor(score)}`}
                 >
-                  <Icon size={24} />
+                  <Icon size={28} />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
-                    <h5 className="font-bold text-gray-800">
+                    <h5 className="text-lg font-bold text-gray-800">
                       {criteriaLabels[key]}
                     </h5>
                     <span
-                      className={`text-lg font-bold ${getScoreColor(score)}`}
+                      className={`text-xl font-bold ${getScoreColor(score)}`}
                     >
                       {score}★
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-base text-gray-600 leading-relaxed">
                     {criterion.feedback}
                   </p>
                 </div>
@@ -118,7 +118,7 @@ export const AIFeedback: React.FC<AIFeedbackProps> = ({ evaluation }) => {
       {/* Fortalezas */}
       <Card className="p-6 bg-green-50">
         <h4 className="text-lg font-bold text-green-700 mb-3 flex items-center gap-2">
-          <TrendingUp size={20} />✨ Fortalezas de tu Historia
+          <TrendingUp size={24} />✨ Fortalezas de tu Historia
         </h4>
         <ul className="space-y-2">
           {evaluation.strengths.map((strength, index) => (
@@ -127,7 +127,7 @@ export const AIFeedback: React.FC<AIFeedbackProps> = ({ evaluation }) => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="flex items-start gap-2 text-gray-700"
+              className="flex items-start gap-2 text-base text-gray-700"
             >
               <span className="text-green-600 font-bold">✓</span>
               <span>{strength}</span>
@@ -139,7 +139,7 @@ export const AIFeedback: React.FC<AIFeedbackProps> = ({ evaluation }) => {
       {/* Áreas de mejora */}
       <Card className="p-6 bg-blue-50">
         <h4 className="text-lg font-bold text-blue-700 mb-3 flex items-center gap-2">
-          <BookOpen size={20} />
+          <BookOpen size={24} />
           💡 Sugerencias para Mejorar
         </h4>
         <ul className="space-y-2">
@@ -149,7 +149,7 @@ export const AIFeedback: React.FC<AIFeedbackProps> = ({ evaluation }) => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 + 0.3 }}
-              className="flex items-start gap-2 text-gray-700"
+              className="flex items-start gap-2 text-base text-gray-700"
             >
               <span className="text-blue-600 font-bold">→</span>
               <span>{improvement}</span>
@@ -171,7 +171,7 @@ export const AIFeedback: React.FC<AIFeedbackProps> = ({ evaluation }) => {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: index * 0.1 }}
-                className="px-3 py-1 bg-purple-200 text-purple-800 rounded-full text-sm font-medium"
+                className="px-3 py-1.5 bg-purple-200 text-purple-800 rounded-full text-base font-medium"
               >
                 {word}
               </motion.span>
