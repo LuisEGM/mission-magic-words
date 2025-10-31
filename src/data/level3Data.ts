@@ -1,4 +1,7 @@
 import type { Level3Data } from "../types";
+import inspiration1 from "../assets/images/inspiration-1.jpg";
+import inspiration2 from "../assets/images/inspiration-2.jpg";
+import inspiration3 from "../assets/images/inspiration-3.jpg";
 
 export const LEVEL3_DATA: Level3Data = {
   id: 3,
@@ -14,17 +17,17 @@ export const LEVEL3_DATA: Level3Data = {
   inspirationImages: [
     {
       id: 1,
-      url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80",
+      url: inspiration1,
       alt: "Un niño mirando las estrellas en una noche mágica",
     },
     {
       id: 2,
-      url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80",
+      url: inspiration2,
       alt: "Un bosque encantado con luz misteriosa",
     },
     {
       id: 3,
-      url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&q=80",
+      url: inspiration3,
       alt: "Un dragón amigable volando sobre montañas",
     },
   ],

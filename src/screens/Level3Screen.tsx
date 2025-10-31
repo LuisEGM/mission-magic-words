@@ -117,7 +117,7 @@ export const Level3Screen: React.FC = () => {
           showProgress={false}
         />
         <div className="flex flex-col items-center justify-center min-h-[70vh] gap-y-8 px-4">
-          <div className="text-6xl animate-bounce">🏰</div>
+          <div className="text-6xl">🏰</div>
           <h2 className="text-3xl md:text-4xl font-bold text-white text-center drop-shadow-lg">
             {LEVEL3_DATA.name}
           </h2>
