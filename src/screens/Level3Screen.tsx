@@ -6,6 +6,7 @@ import { InspirationSelector } from "../components/level3/InspirationSelector";
 import { StoryEditor } from "../components/level3/StoryEditor";
 import { SelfReviewChecklist } from "../components/level3/SelfReviewChecklist";
 import { AIFeedback } from "../components/level3/AIFeedback";
+import { ProgrammaticFeedback } from "../components/level3/ProgrammaticFeedback";
 import { Button } from "../components/ui/Button";
 import { UnlockAnimation } from "../components/shared/UnlockAnimation";
 import { CharacterDialogue } from "../components/shared/CharacterDialogue";
@@ -13,7 +14,11 @@ import { Card } from "../components/ui/Card";
 import { useGameStore } from "../store/gameStore";
 import { LEVEL3_DATA } from "../data/level3Data";
 import { MAGIC_WORDS } from "../data/gameData";
-import { analyzeStory, evaluateStory } from "../utils/textAnalyzer";
+import {
+  analyzeStory,
+  evaluateStory,
+  type StoryAnalysis,
+} from "../utils/textAnalyzer";
 import { claudeService } from "../services/claudeService";
 import { audioService } from "../services/audioService";
 import { AlertCircle } from "lucide-react";
@@ -25,6 +30,7 @@ type Level3Stage =
   | "write"
   | "review"
   | "ai-evaluation"
+  | "programmatic-evaluation"
   | "complete";
 
 export const Level3Screen: React.FC = () => {
@@ -38,6 +44,8 @@ export const Level3Screen: React.FC = () => {
     null
   );
   const [evaluationError, setEvaluationError] = useState<string | null>(null);
+  const [programmaticAnalysis, setProgrammaticAnalysis] =
+    useState<StoryAnalysis | null>(null);
 
   const {
     level3Stars,
@@ -115,6 +123,14 @@ export const Level3Screen: React.FC = () => {
     }
   };
 
+  const handleSubmitWithoutAI = () => {
+    // Evaluación programática
+    const analysis = analyzeStory(text, title, LEVEL3_DATA.wordBank);
+    setProgrammaticAnalysis(analysis);
+    setStage("programmatic-evaluation");
+    audioService.play("correct");
+  };
+
   const handleSubmit = () => {
     // Si hay evaluación de IA, usar esa
     if (aiEvaluation) {
@@ -139,8 +155,22 @@ export const Level3Screen: React.FC = () => {
         evaluationScore: evaluation,
         submittedAt: new Date().toISOString(),
       });
+    } else if (programmaticAnalysis) {
+      // Usar evaluación programática
+      const evaluation = evaluateStory(programmaticAnalysis);
+
+      addStars(3, evaluation.total);
+
+      submitStory({
+        title,
+        text,
+        wordCount: programmaticAnalysis.wordCount,
+        selectedImage: selectedImage!,
+        evaluationScore: evaluation,
+        submittedAt: new Date().toISOString(),
+      });
     } else {
-      // Fallback: usar evaluación básica
+      // Fallback: evaluar ahora
       const analysis = analyzeStory(text, title, LEVEL3_DATA.wordBank);
       const evaluation = evaluateStory(analysis);
 
@@ -314,7 +344,7 @@ export const Level3Screen: React.FC = () => {
         <div className="mt-8 space-y-6">
           <SelfReviewChecklist
             checklist={LEVEL3_DATA.checklist}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmitWithoutAI}
             onGoBack={() => setStage("write")}
           />
 
@@ -399,6 +429,39 @@ export const Level3Screen: React.FC = () => {
             </Button>
             <Button onClick={handleSubmit} size="lg">
               Continuar con {aiEvaluation?.total || 0} Estrellas
+            </Button>
+          </div>
+        </div>
+      </ScreenContainer>
+    );
+  }
+
+  if (stage === "programmatic-evaluation") {
+    const evaluation = programmaticAnalysis
+      ? evaluateStory(programmaticAnalysis)
+      : null;
+
+    return (
+      <ScreenContainer>
+        <GameHeader levelName={LEVEL3_DATA.name} currentStars={level3Stars} />
+        <div className="mt-8 space-y-6">
+          {programmaticAnalysis && evaluation && (
+            <ProgrammaticFeedback
+              evaluation={evaluation}
+              analysis={programmaticAnalysis}
+            />
+          )}
+
+          <div className="flex justify-center gap-4">
+            <Button
+              onClick={() => setStage("write")}
+              variant="outline"
+              size="lg"
+            >
+              Mejorar Historia
+            </Button>
+            <Button onClick={handleSubmit} size="lg">
+              Continuar con {evaluation?.total || 0} Estrellas
             </Button>
           </div>
         </div>

@@ -100,12 +100,9 @@ export const StoryEditor: React.FC<StoryEditorProps> = ({
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-start gap-2">
-          <AlertCircle
-            className="text-blue-600 flex-shrink-0 mt-0.5"
-            size={20}
-          />
+          <AlertCircle className="text-blue-600 shrink-0 mt-0.5" size={20} />
           <div className="text-sm text-blue-800">
-            <p className="font-semibold mb-1">Requisitos:</p>
+            <p className="font-semibold mb-1">Requisitos mínimos:</p>
             <ul className="list-disc list-inside space-y-1">
               <li className={wordCount >= minWords ? "text-green-700" : ""}>
                 Entre {minWords} y {maxWords} palabras (tienes {wordCount})
@@ -113,8 +110,8 @@ export const StoryEditor: React.FC<StoryEditorProps> = ({
               <li className={usedWords.length >= 3 ? "text-green-700" : ""}>
                 Usar al menos 3 palabras del banco (tienes {usedWords.length})
               </li>
-              <li>Incluir al menos un diálogo</li>
-              <li>Tener inicio, desarrollo y final</li>
+              {/* <li>Incluir al menos un diálogo</li>
+              <li>Tener inicio, desarrollo y final</li> */}
             </ul>
           </div>
         </div>

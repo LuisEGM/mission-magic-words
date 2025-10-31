@@ -370,6 +370,18 @@ Costo por evaluación: ~$0.014 USD
 6. Usuario ve feedback detallado
 ```
 
+## 🔄 Promp de Prueba
+
+El Dragón y el Tesoro Mágico
+
+Había una vez un dragón que vivía en lo alto de una montaña misterioso. Todos los habitantes del pueblo le tenían miedo, pero él guardaba un secreto increíble: protegía un tesoro mágico que brillaba en la oscuridad de su cueva.
+
+Un día, una niña valiente llamada Ana decidió subir la montaña para descubrir la verdad sobre el dragón. Mientras subía, el viento soplaba fuerte y la nieve caía sobre sus hombros, pero su espíritu de aventura no la dejó rendirse.
+
+Cuando llegó a la cima, vio algo asombroso: el dragón estaba sentado tristemente junto a un cofre brillante. "Hola dragón, me llamo Ana" dijo ella con una sonrisa. "Hola niña, soy Fuego" respondió el dragón con voz suave y sorprendida. "¿No tienes miedo de mí?"
+
+"No, porque veo que eres amable" dijo Ana. El dragón le mostró su tesoro: piedras brillantes que iluminaban la cueva. Se hicieron amigos y jugaron juntos toda la tarde. Ana le enseñó a Fuego que ser diferente está bien y que todos merecen amistad. Desde ese día, el dragón fue feliz porque tenía una amiga verdadera.
+
 ---
 
 **Última actualización:** 2025-10-31

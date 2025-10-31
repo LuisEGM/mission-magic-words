@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import { CheckSquare, Square } from 'lucide-react';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Card } from "../ui/Card";
+import { Button } from "../ui/Button";
+import { CheckSquare, Square } from "lucide-react";
 
 interface SelfReviewChecklistProps {
   checklist: string[];
@@ -13,9 +13,11 @@ interface SelfReviewChecklistProps {
 export const SelfReviewChecklist: React.FC<SelfReviewChecklistProps> = ({
   checklist,
   onSubmit,
-  onGoBack
+  onGoBack,
 }) => {
-  const [checked, setChecked] = useState<boolean[]>(new Array(checklist.length).fill(false));
+  const [checked, setChecked] = useState<boolean[]>(
+    new Array(checklist.length).fill(false)
+  );
 
   const toggleCheck = (index: number) => {
     const newChecked = [...checked];
@@ -23,13 +25,13 @@ export const SelfReviewChecklist: React.FC<SelfReviewChecklistProps> = ({
     setChecked(newChecked);
   };
 
-  const allChecked = checked.every(c => c);
+  const allChecked = checked.every((c) => c);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-2xl mx-auto"
+      className="max-w-4xl mx-auto"
     >
       <Card className="p-8">
         <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
@@ -50,11 +52,18 @@ export const SelfReviewChecklist: React.FC<SelfReviewChecklistProps> = ({
               className="flex items-start gap-3 p-4 rounded-lg border-2 border-gray-200 hover:border-purple-400 cursor-pointer transition-colors"
             >
               {checked[index] ? (
-                <CheckSquare className="text-green-600 flex-shrink-0" size={24} />
+                <CheckSquare
+                  className="text-green-600 flex-shrink-0"
+                  size={24}
+                />
               ) : (
                 <Square className="text-gray-400 flex-shrink-0" size={24} />
               )}
-              <span className={`text-base ${checked[index] ? 'text-gray-800 font-medium' : 'text-gray-600'}`}>
+              <span
+                className={`text-base ${
+                  checked[index] ? "text-gray-800 font-medium" : "text-gray-600"
+                }`}
+              >
                 {item}
               </span>
             </motion.div>

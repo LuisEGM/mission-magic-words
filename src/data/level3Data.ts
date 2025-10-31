@@ -53,11 +53,10 @@ export const LEVEL3_DATA: Level3Data = {
   },
 
   checklist: [
-    "¿Mi historia tiene un inicio, un problema y un final?",
-    "¿Usé al menos un diálogo (conversación entre personajes)?",
-    "¿Revisé la ortografía y la puntuación?",
-    "¿Usé al menos 3 palabras del banco de palabras?",
-    "¿Mi historia es creativa y original?",
+    "Leí mi historia completa",
+    "Revisé la ortografía y puntuación",
+    "Mi historia tiene sentido de inicio a fin",
+    "Estoy satisfecho con mi historia",
   ],
 
   rubric: [
